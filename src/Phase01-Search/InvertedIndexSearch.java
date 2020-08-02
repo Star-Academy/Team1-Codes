@@ -27,31 +27,18 @@ public class InvertedIndexSearch {
             Arrays.stream(query).filter((String k) -> k.startsWith("-")).forEach(excQueries::add);
 
             HashSet<String> result = fileReader.getAllFilesNames(); // is initialized with all files
-            for (String word : query) {
-                if (!word.startsWith("+") && !word.startsWith("-"))
-                    if (allWords.containsKey(word))
-                        result.retainAll(allWords.get(word)); // calculates the intersection of results
+            for (String word : query)
+                if (!word.startsWith("+") && !word.startsWith("-") && allWords.containsKey(word))
+                    result.retainAll(allWords.get(word)); // calculates the intersection of results
+            for (String word : orQueries)
+                if (allWords.containsKey(word))
+                    result.addAll(allWords.get(word));
+            for (String word : orQueries)
+                if (allWords.containsKey(word))
+                    result.removeAll(allWords.get(word));
 
-                //     result.addAll(orQuery(word.substring(1)));
-                // else if (word.startsWith("-"))
-                //     result.addAll(excQuery(word.substring(1)));
-                // else
-                //     result.addAll(andQuery(word));
-            }
             System.out.println(result);
         }
         scanner.close();
-    }
-
-    static HashSet<String> andQuery(String key) {
-        return null;
-    }
-
-    static HashSet<String> orQuery(String key) {
-        return null;
-    }
-
-    static HashSet<String> excQuery(String key) {
-        return null;
     }
 }
