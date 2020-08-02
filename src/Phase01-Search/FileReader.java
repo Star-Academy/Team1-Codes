@@ -29,9 +29,9 @@ public class FileReader {
                     String word = matcher.group().toLowerCase();
 
                     if (result.containsKey(word)) {
-                        HashSet<String> previousOccurances = result.get(word);
-                        previousOccurances.add(file.getName());
-                        result.put(word, previousOccurances);
+                        HashSet<String> previousOccurrences = result.get(word);
+                        previousOccurrences.add(file.getName());
+                        result.put(word, previousOccurrences);
                     } else {
                         HashSet<String> newWord = new HashSet<>();
                         newWord.add(file.getName());
@@ -43,9 +43,10 @@ public class FileReader {
         return result;
     }
     
-    public HashSet<String> getAllFilesNames() { // Class Cast Exception
+    public HashSet<String> getAllFilesNames() {
         File dataFolder = new File(folderPath);
-        String[] filesNames = (String[]) Arrays.stream(dataFolder.listFiles()).map((File f) -> f.getName()).toArray();
-        return new HashSet<String>(Arrays.asList(filesNames));
+        HashSet<String> filesNames = new HashSet<>();
+        Arrays.stream(dataFolder.listFiles()).map(File::getName).forEach(filesNames::add);
+        return filesNames;
     }
 }

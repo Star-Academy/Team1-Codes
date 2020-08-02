@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,13 +21,12 @@ public class InvertedIndexSearch {
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {
             String[] query = scanner.nextLine().split(" ");
-            // String[] orQueries = (String[]) Arrays.stream(query).filter((String k) -> k.startsWith("+")).toArray();
-            // String[] excQueries = (String[]) Arrays.stream(query).filter((String k) -> k.startsWith("-")).toArray();
+            ArrayList<String> orQueries = new ArrayList<>();
+            ArrayList<String> excQueries = new ArrayList<>();
+            Arrays.stream(query).filter((String k) -> k.startsWith("+")).forEach(orQueries::add);
+            Arrays.stream(query).filter((String k) -> k.startsWith("-")).forEach(excQueries::add);
 
-            HashSet<String> result = fileReader.getAllFilesNames(); // should be initialized with all files
-            System.out.println(result);
-            System.exit(0);
-
+            HashSet<String> result = fileReader.getAllFilesNames(); // is initialized with all files
             for (String word : query) {
                 if (!word.startsWith("+") && !word.startsWith("-"))
                     if (allWords.containsKey(word))
