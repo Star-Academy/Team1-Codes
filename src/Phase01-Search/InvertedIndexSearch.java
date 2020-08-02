@@ -31,11 +31,11 @@ public class InvertedIndexSearch {
                 if (!word.startsWith("+") && !word.startsWith("-") && allWords.containsKey(word))
                     result.retainAll(allWords.get(word)); // calculates the intersection of results
             for (String word : orQueries)
-                if (allWords.containsKey(word))
-                    result.addAll(allWords.get(word));
-            for (String word : orQueries)
-                if (allWords.containsKey(word))
-                    result.removeAll(allWords.get(word));
+                if (allWords.containsKey(word.substring(1)))
+                    result.addAll(allWords.get(word.substring(1)));
+            for (String word : excQueries)
+                if (allWords.containsKey(word.substring(1)))
+                    result.removeAll(allWords.get(word.substring(1)));
 
             System.out.println(result);
         }
