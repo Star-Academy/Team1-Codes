@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -40,5 +41,11 @@ public class FileReader {
             }
         }
         return result;
+    }
+    
+    public HashSet<String> getAllFilesNames() { // Class Cast Exception
+        File dataFolder = new File(folderPath);
+        String[] filesNames = (String[]) Arrays.stream(dataFolder.listFiles()).map((File f) -> f.getName()).toArray();
+        return new HashSet<String>(Arrays.asList(filesNames));
     }
 }
