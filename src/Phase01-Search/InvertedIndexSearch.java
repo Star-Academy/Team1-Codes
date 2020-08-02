@@ -1,6 +1,4 @@
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -13,34 +11,61 @@ public class InvertedIndexSearch {
     public static void run() throws IOException {
         String documentsPath = ".\\src\\Phase01-Search\\documents";
         fileReader = new FileReader(documentsPath);
-        allWords = fileReader.readFiles();
+        allWords = fileReader.readAllFiles();
         processQueries();
     }
 
-    private static void processQueries() {
+    private static void processQueries() throws IOException {
         Scanner scanner = new Scanner(System.in);
-        while (scanner.hasNextLine()) {
+        outer: while (scanner.hasNextLine()) {
             String[] query = scanner.nextLine().split(" ");
-            ArrayList<String> orQueries = new ArrayList<>();
-            ArrayList<String> excQueries = new ArrayList<>();
-            Arrays.stream(query).filter((String k) -> k.startsWith("+")).forEach(orQueries::add);
-            Arrays.stream(query).filter((String k) -> k.startsWith("-")).forEach(excQueries::add);
 
-            HashSet<String> result = fileReader.getAllFilesNames(); // is initialized with all files
-            for (String word : query)
-                if (!word.startsWith("+") && !word.startsWith("-") && allWords.containsKey(word))
-                    result.retainAll(allWords.get(word)); // calculates the intersection of results
-            for (String word : orQueries)
-                if (allWords.containsKey(word.substring(1)))
-                    result.addAll(allWords.get(word.substring(1)));
-            for (String word : excQueries)
-                if (allWords.containsKey(word.substring(1)))
-                    result.removeAll(allWords.get(word.substring(1)));
+            HashSet<String> result = new HashSet<>();
+            HashSet<String> orDocs = new HashSet<>();
+            HashSet<String> excDocs = new HashSet<>();
+            HashSet<String> andDocs = new HashSet<>();
 
-            if (result.isEmpty())
-                System.out.println("Entry wasn't found.");
-            else
+            boolean seenAnOrDoc = false, seenAnAndDoc = false;
+            for (String word : query) {
+                switch (word.charAt(0)) {
+                    case '+':
+                        seenAnOrDoc = true;
+                        if (allWords.containsKey(word.substring(1)))
+                            orDocs.addAll(allWords.get(word.substring(1)));
+                        break;
+                    case '-':
+                        if (allWords.containsKey(word.substring(1)))
+                            excDocs.addAll(allWords.get(word.substring(1)));
+                        break;
+
+                    default:
+                        seenAnAndDoc = true;
+                        if (allWords.containsKey(word)) {
+                            if (andDocs.isEmpty())
+                                andDocs.addAll(allWords.get(word));
+                            else
+                                andDocs.retainAll(allWords.get(word));
+                        } else {
+                            System.out.println("Entry wasn't found.");
+                            continue outer;
+                        }
+                }
+            }
+            if (!seenAnOrDoc)
+                result = andDocs;
+            else if (!seenAnAndDoc)
+                result = orDocs;
+            else {
+                andDocs.retainAll(orDocs);
+                result = andDocs;
+            }
+
+            result.removeAll(excDocs);
+
+            if (!result.isEmpty())
                 System.out.println("Entry has been found in: " + result);
+            else
+                System.out.println("Entry wasn't found.");
 
         }
         scanner.close();
