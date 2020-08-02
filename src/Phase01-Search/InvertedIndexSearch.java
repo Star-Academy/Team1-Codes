@@ -37,7 +37,11 @@ public class InvertedIndexSearch {
                 if (allWords.containsKey(word.substring(1)))
                     result.removeAll(allWords.get(word.substring(1)));
 
-            System.out.println(result);
+            if (result.isEmpty())
+                System.out.println("Entry wasn't found.");
+            else
+                System.out.println("Entry has been found in: " + result);
+
         }
         scanner.close();
     }
