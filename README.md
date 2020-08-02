@@ -1,2 +1,7 @@
 # Team1-Codes
-Team1) Alireza Tajmirriahi &amp; Mohammad Javad SahebNasi
+## Contributors
+ - Alireza Tajmirriahi
+ - Mohammad Javad SahebNasi
+## Phases
+### Phase01
+implementing inverted index search
