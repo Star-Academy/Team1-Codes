@@ -3,9 +3,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,44 +14,26 @@ public class FileReader {
         this.folderPath = folderPath;
     }
 
-    public HashMap<String, HashSet<String>> readAllFiles() throws IOException {
-        return readFiles(folderPath);
-    }
-
-    public HashMap<String, HashSet<String>> readFiles(String path) throws IOException {
-        File dataFolder = new File(path);
-
-        HashMap<String, HashSet<String>> result = new HashMap<>();
+    public void readAllFiles() throws IOException {
+        File dataFolder = new File(folderPath);
+        
         for (File file : dataFolder.listFiles()) {
-            if (file.isDirectory()) {
-                result.putAll(readFiles(file.getPath()));
-            } else {
-                List<String> fileLines = Files.readAllLines(file.toPath());
-                Pattern pattern = Pattern.compile("\\w+");
-                for (String line : fileLines) {
-                    Matcher matcher = pattern.matcher(line);
-                    while (matcher.find()) {
-                        String word = matcher.group().toLowerCase();
-
-                        if (result.containsKey(word)) {
-                            HashSet<String> previousOccurrences = result.get(word);
-                            previousOccurrences.add(file.getName());
-                            result.put(word, previousOccurrences);
-                        } else {
-                            HashSet<String> newWord = new HashSet<>();
-                            newWord.add(file.getName());
-                            result.put(word, newWord);
-                        }
-                    }
-                }
-            }
+            ArrayList<String> fileTokens = getTokens(file.getPath());
+            Search.invertedIndex.storeTokens(file, fileTokens);
         }
-        return result;
     }
 
-    public HashSet<String> getFilesNames() throws IOException {
-        HashSet<String> filesNames = new HashSet<>();
-        Files.walk(Paths.get(folderPath)).filter(Files::isRegularFile).map(Path::getFileName).map(String::valueOf).forEach(filesNames::add);
-        return filesNames;
+    public ArrayList<String> getTokens(String filePath) throws IOException {
+        File dataFolder = new File(filePath);
+
+        ArrayList<String> fileTokens = new ArrayList<>();
+
+        List<String> fileLines = Files.readAllLines(dataFolder.toPath());
+        for (String line : fileLines) {
+            Matcher matcher = Pattern.compile("\\w+").matcher(line);
+            while (matcher.find())
+                fileTokens.add(matcher.group().toLowerCase());
+        }
+        return fileTokens;
     }
 }
