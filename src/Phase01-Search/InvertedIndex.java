@@ -9,10 +9,12 @@ public class InvertedIndex {
     HashMap<String, HashSet<String>> allWords;
     FileReader fileReader;
 
-    public void init(String documentsPath) {
+    public InvertedIndex(String documentsPath) {
         fileReader = new FileReader(documentsPath);
         allWords = new HashMap<>();
-        
+    }
+
+    public void initMap() {        
         try {
             fileReader.readAllFiles();
         } catch (IOException e) {
@@ -40,8 +42,6 @@ public class InvertedIndex {
                     result.retainAll(allWords.get(word));
             }
             else
-                //TODO
-                //null object ?!
                 return null;
         }
         return result;
