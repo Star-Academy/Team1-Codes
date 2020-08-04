@@ -3,57 +3,61 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class FileReader {
     private String folderPath;
+    private HashMap<File, List<String>> allFilesTokens;
 
     public FileReader(String folderPath) {
         this.folderPath = folderPath;
+        allFilesTokens = new HashMap<>();
     }
 
-    public HashMap<String, HashSet<String>> readAllFiles() throws IOException {
-        return readFiles(folderPath);
+    public void readAllFiles() throws IOException {
+        File dataFolder = new File(folderPath);
+
+        for (File file : dataFolder.listFiles())
+            allFilesTokens.put(file, tokenizeLines(getFileLines(file)));
     }
 
-    public HashMap<String, HashSet<String>> readFiles(String path) throws IOException {
-        File dataFolder = new File(path);
+    private List<String> tokenizeLines(List<String> fileLines) {
+        ArrayList<String> fileTokens = new ArrayList<>();
 
-        HashMap<String, HashSet<String>> result = new HashMap<>();
-        for (File file : dataFolder.listFiles()) {
-            if (file.isDirectory()) {
-                result.putAll(readFiles(file.getPath()));
-            } else {
-                List<String> fileLines = Files.readAllLines(file.toPath());
-                Pattern pattern = Pattern.compile("\\w+");
-                for (String line : fileLines) {
-                    Matcher matcher = pattern.matcher(line);
-                    while (matcher.find()) {
-                        String word = matcher.group().toLowerCase();
-
-                        if (result.containsKey(word)) {
-                            HashSet<String> previousOccurrences = result.get(word);
-                            previousOccurrences.add(file.getName());
-                            result.put(word, previousOccurrences);
-                        } else {
-                            HashSet<String> newWord = new HashSet<>();
-                            newWord.add(file.getName());
-                            result.put(word, newWord);
-                        }
-                    }
-                }
-            }
+        for (String line : fileLines) {
+            Matcher matcher = Pattern.compile("\\w+").matcher(line);
+            while (matcher.find())
+                fileTokens.add(matcher.group().toLowerCase());
         }
-        return result;
+        return fileTokens;
     }
 
-    public HashSet<String> getFilesNames() throws IOException {
+    private List<String> getFileLines(File file) {
+        List<String> fileLines = new ArrayList<>();
+        try {
+            fileLines = Files.readAllLines(file.toPath());
+        } catch (IOException e) {
+            System.err.println("An error occurred during reading files.");
+            System.exit(0);
+        }
+        return fileLines;
+    }
+
+    public HashSet<String> getFilesNames() {
         HashSet<String> filesNames = new HashSet<>();
-        Files.walk(Paths.get(folderPath)).filter(Files::isRegularFile).map(Path::getFileName).map(String::valueOf).forEach(filesNames::add);
+        try {
+            filesNames = Files.walk(Paths.get(folderPath)).filter(Files::isRegularFile).map(Path::getFileName)
+                    .map(String::valueOf).collect(Collectors.toCollection(HashSet::new));
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
         return filesNames;
+    }
+
+    public HashMap<File, List<String>> getAllFilesTokens() {
+        return allFilesTokens;
     }
 }
