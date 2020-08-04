@@ -7,7 +7,7 @@ public class Main {
     static FileReader fileReader;
 
     public static void main(String[] args) throws IOException {
-        final String DOCUMENTS_PATH = ".\\src\\Phase01-Search\\documents";
+        final String DOCUMENTS_PATH = ".\\src\\search\\documents\\";
         invertedIndex = new InvertedIndex();
         fileReader = new FileReader(DOCUMENTS_PATH);
         fileReader.readAllFiles();
