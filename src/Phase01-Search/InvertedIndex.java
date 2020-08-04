@@ -1,25 +1,28 @@
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 public class InvertedIndex {
 
-    HashMap<String, HashSet<String>> allWords;
-    FileReader fileReader;
+    HashMap<String, HashSet<String>> allWords = new HashMap<>();
 
-    public InvertedIndex(String documentsPath) {
-        fileReader = new FileReader(documentsPath);
-        allWords = new HashMap<>();
+    public void initMap() {
+        HashMap<File, List<String>> filesTokens = Main.getFileReader().getAllFilesTokens();
+        for (File file : filesTokens.keySet())
+            storeTokens(file, filesTokens.get(file));
     }
 
-    public void initMap() {        
-        try {
-            fileReader.readAllFiles();
-        } catch (IOException e) {
-            System.err.println("An error occurred during reading files.");
-            System.exit(0);
+    public void storeTokens(File file, List<String> fileTokens) {
+        for (String token : fileTokens) {
+            if (allWords.containsKey(token)) {
+                allWords.get(token).add(file.getName());
+            } else {
+                HashSet<String> newWord = new HashSet<>();
+                newWord.add(file.getName());
+                allWords.put(token, newWord);
+            }
         }
     }
 
@@ -34,14 +37,13 @@ public class InvertedIndex {
 
     public HashSet<String> andQueryResult(ArrayList<String> andQueries) {
         HashSet<String> result = new HashSet<>();
-        for (String word : andQueries){
+        for (String word : andQueries) {
             if (allWords.containsKey(word)) {
                 if (result.isEmpty())
                     result.addAll(allWords.get(word));
                 else
                     result.retainAll(allWords.get(word));
-            }
-            else
+            } else
                 return null;
         }
         return result;
@@ -55,17 +57,4 @@ public class InvertedIndex {
         return result;
     }
 
-    public void storeTokens(File file, ArrayList<String> fileTokens) {
-        for (String token : fileTokens) {
-            if (allWords.containsKey(token)) {
-                HashSet<String> previousOccurrences = allWords.get(token);
-                previousOccurrences.add(file.getName());
-                allWords.put(token, previousOccurrences);
-            } else {
-                HashSet<String> newWord = new HashSet<>();
-                newWord.add(file.getName());
-                allWords.put(token, newWord);
-            }
-        }
-    }
 }
