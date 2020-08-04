@@ -9,14 +9,14 @@ public class Query {
 
     boolean seenAnOrDoc, seenAnAndDoc;
 
-    ArrayList<String> orQueries;
-    ArrayList<String> andQueries;
-    ArrayList<String> excQueries;
+    public ArrayList<String> orQueries;
+    public ArrayList<String> andQueries;
+    public ArrayList<String> excQueries;
 
-    HashSet<String> orDocs;
-    HashSet<String> andDocs;
-    HashSet<String> excDocs;
-    HashSet<String> result;
+    public HashSet<String> orDocs;
+    public HashSet<String> andDocs;
+    public HashSet<String> excDocs;
+    public HashSet<String> result;
 
     public Query(InvertedIndex invertedIndex) {
         seenAnOrDoc = seenAnAndDoc = false;
@@ -30,7 +30,7 @@ public class Query {
         this.invertedIndex = invertedIndex;
     }
 
-    void analyzeQuery(String[] words) {
+    public void analyzeQuery(String[] words) {
         for (String word : words)
             switch (word.charAt(0)) {
                 case '+':
@@ -46,13 +46,13 @@ public class Query {
             }
     }
 
-    void buildFoundDocs() {
+    public void buildFoundDocs() {
         orDocs = invertedIndex.orQueryResult(orQueries);
         andDocs = invertedIndex.andQueryResult(andQueries);
         excDocs = invertedIndex.excQueryResult(excQueries);
     }
 
-    HashSet<String> buildResult() {
+    public HashSet<String> buildResult() {
         // searching the queries
         buildFoundDocs();
 
@@ -73,5 +73,5 @@ public class Query {
         result.removeAll(excDocs);
 
         return result;
-    }
+    }    
 }

@@ -11,8 +11,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class FileReader {
-    private String folderPath;
-    HashMap<File, List<String>> allFilesTokens;
+    public String folderPath;
+    public HashMap<File, List<String>> allFilesTokens;
 
     public FileReader(String folderPath) {
         this.folderPath = folderPath;
@@ -26,7 +26,7 @@ public class FileReader {
             allFilesTokens.put(file, tokenizeLines(getFileLines(file)));
     }
 
-    private List<String> tokenizeLines(List<String> fileLines) {
+    public List<String> tokenizeLines(List<String> fileLines) {
         ArrayList<String> fileTokens = new ArrayList<>();
 
         for (String line : fileLines) {
@@ -37,12 +37,11 @@ public class FileReader {
         return fileTokens;
     }
 
-    private List<String> getFileLines(File file) {
+    public List<String> getFileLines(File file) {
         List<String> fileLines = new ArrayList<>();
         try {
             fileLines = Files.readAllLines(file.toPath());
         } catch (IOException e) {
-            System.err.println("An error occurred during reading files.");
             e.printStackTrace();
         }
         return fileLines;
