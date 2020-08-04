@@ -11,11 +11,7 @@ public class Main {
         invertedIndex = new InvertedIndex();
         fileReader = new FileReader(DOCUMENTS_PATH);
         fileReader.readAllFiles();
-        invertedIndex.initMap();
+        invertedIndex.initMap(fileReader.allFilesTokens);
         new SearchQuery(invertedIndex).processQueries();
-    }
-
-    public static FileReader getFileReader() {
-        return fileReader;
     }
 }

@@ -60,7 +60,7 @@ public class Query {
         if (andDocs == null) // Uncompatible "And Queries" were found, so the result is empty
             return new HashSet<>();
         if (!seenAnAndDoc && !seenAnAndDoc) // We have only "Exclude Queries", so result is all documents but their results
-            result = Main.getFileReader().getFilesNames();
+            result = Main.fileReader.getFilesNames();
         else if (!seenAnOrDoc) // No "Or Queries" were found, so the result is equal to "And Queries" results
             result = andDocs;
         else if (!seenAnAndDoc) // No "And Queries" were found, so the result is equal to "Or Queries" results

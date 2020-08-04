@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class FileReader {
     private String folderPath;
-    private HashMap<File, List<String>> allFilesTokens;
+    HashMap<File, List<String>> allFilesTokens;
 
     public FileReader(String folderPath) {
         this.folderPath = folderPath;
@@ -43,7 +43,7 @@ public class FileReader {
             fileLines = Files.readAllLines(file.toPath());
         } catch (IOException e) {
             System.err.println("An error occurred during reading files.");
-            System.exit(0);
+            e.printStackTrace();
         }
         return fileLines;
     }
@@ -57,9 +57,5 @@ public class FileReader {
             ioe.printStackTrace();
         }
         return filesNames;
-    }
-
-    public HashMap<File, List<String>> getAllFilesTokens() {
-        return allFilesTokens;
     }
 }

@@ -10,8 +10,8 @@ public class InvertedIndex {
 
     HashMap<String, HashSet<String>> allWords = new HashMap<>();
 
-    public void initMap() {
-        HashMap<File, List<String>> filesTokens = Main.getFileReader().getAllFilesTokens();
+    public void initMap(HashMap<File, List<String>> allTokens) {
+        HashMap<File, List<String>> filesTokens = allTokens;
         for (File file : filesTokens.keySet())
             storeTokens(file, filesTokens.get(file));
     }
