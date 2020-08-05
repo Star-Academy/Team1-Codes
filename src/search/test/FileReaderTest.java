@@ -4,6 +4,7 @@ import org.junit.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 import java.util.*;
 
 import search.FileReader;
@@ -59,9 +60,8 @@ public class FileReaderTest {
         File invalidFile = new File("invalid\\path");
         try {
             fileReader.getFileLines(invalidFile);
-            Assert.fail("Should've thrown IOException");
         } catch (Exception ex) {
-            Assert.assertEquals(IOException.class, ex.getClass());
+            Assert.assertEquals(NoSuchFileException.class, ex.getClass());
         }
     }
 }
