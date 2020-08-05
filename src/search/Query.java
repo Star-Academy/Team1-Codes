@@ -73,5 +73,5 @@ public class Query {
         result.removeAll(excDocs);
 
         return result;
-    }    
+    }
 }

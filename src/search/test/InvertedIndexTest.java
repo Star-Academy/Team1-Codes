@@ -16,8 +16,8 @@ public class InvertedIndexTest {
         allTokens = new HashMap<>();
         File file1 = new File("file1");
         File file2 = new File("file2");
-        String[] file1_tokens = { "star", "mohammad", "phase", "three" };
-        String[] file2_tokens = { "star", "alireza", "three", "javad" };
+        String[] file1_tokens = {"star", "mohammad", "phase", "three"};
+        String[] file2_tokens = {"star", "alireza", "three", "javad"};
         allTokens.put(file1, Arrays.asList(file1_tokens));
         allTokens.put(file2, Arrays.asList(file2_tokens));
     }
@@ -36,16 +36,16 @@ public class InvertedIndexTest {
     public void initMapTest() {
         HashSet<String> expectedFiles = new HashSet<>();
         expectedFiles.add("file1");
-        Assert.assertEquals(expectedFiles, invertedIndex.allWords.get("phase"));
+        Assert.assertEquals(expectedFiles, invertedIndex.getAllWords().get("phase"));
         expectedFiles.add("file2");
-        Assert.assertEquals(expectedFiles, invertedIndex.allWords.get("star"));
+        Assert.assertEquals(expectedFiles, invertedIndex.getAllWords().get("star"));
     }
 
     @Test
     public void orQueryResultTest() {
         String[] queries = {"phase", "3"};
         ArrayList<String> orQueries = new ArrayList<>(Arrays.asList(queries));
-        
+
         HashSet<String> result = invertedIndex.orQueryResult(orQueries);
         Assert.assertTrue(result.contains("file1"));
         Assert.assertFalse(result.contains("file2"));
@@ -55,7 +55,7 @@ public class InvertedIndexTest {
     public void andQueryResultTest() {
         String[] queries = {"phase", "three"};
         ArrayList<String> andQueries = new ArrayList<>(Arrays.asList(queries));
-        
+
         HashSet<String> result = invertedIndex.andQueryResult(andQueries);
         Assert.assertTrue(result.contains("file1"));
         Assert.assertFalse(result.contains("file2"));
@@ -68,7 +68,7 @@ public class InvertedIndexTest {
     public void excQueryResultTest() {
         String[] queries = {"phase", "three"};
         ArrayList<String> excQueries = new ArrayList<>(Arrays.asList(queries));
-        
+
         HashSet<String> result = invertedIndex.excQueryResult(excQueries);
         Assert.assertEquals(2, result.size());
     }

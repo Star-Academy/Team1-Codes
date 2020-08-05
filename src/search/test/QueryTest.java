@@ -14,37 +14,37 @@ public class QueryTest{
 
         HashSet<String> docs1 = new HashSet<>();
         docs1.add("d1");
-        query.invertedIndex.allWords.put("or1", docs1);
+        query.invertedIndex.getAllWords().put("or1", docs1);
 
         HashSet<String> docs2 = new HashSet<>();
         docs2.add("d2");
-        query.invertedIndex.allWords.put("or2", docs2);
+        query.invertedIndex.getAllWords().put("or2", docs2);
 
         HashSet<String> docs3 = new HashSet<>();
         docs3.add("d3");
-        query.invertedIndex.allWords.put("or3", docs3);
+        query.invertedIndex.getAllWords().put("or3", docs3);
 
         HashSet<String> docs4 = new HashSet<>();
         docs4.add("d2");
         docs4.add("d1");
-        query.invertedIndex.allWords.put("and1", docs4);
+        query.invertedIndex.getAllWords().put("and1", docs4);
 
         HashSet<String> docs5 = new HashSet<>();
         docs5.add("d1");
         docs5.add("d2");
-        query.invertedIndex.allWords.put("and2", docs5);
+        query.invertedIndex.getAllWords().put("and2", docs5);
 
         HashSet<String> docs8 = new HashSet<>();
         docs8.add("d4");
-        query.invertedIndex.allWords.put("and3", docs8);
+        query.invertedIndex.getAllWords().put("and3", docs8);
 
         HashSet<String> docs6 = new HashSet<>();
         docs6.add("d1");
-        query.invertedIndex.allWords.put("exc1", docs6);
+        query.invertedIndex.getAllWords().put("exc1", docs6);
 
         HashSet<String> docs7 = new HashSet<>();
         docs7.add("d3");
-        query.invertedIndex.allWords.put("exc2", docs7);
+        query.invertedIndex.getAllWords().put("exc2", docs7);
 
         /////////////////////////////////
     }

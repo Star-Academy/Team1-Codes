@@ -27,31 +27,28 @@ public class FileReaderTest {
         fileLines.add("Star$Academy");
         fileLines.add("phase  three");
         List<String> tokenizedLines = fileReader.tokenizeLines(fileLines);
-        String[] tokens = { "star", "academy", "phase", "three" };
+        String[] tokens = {"star", "academy", "phase", "three"};
         List<String> expectedTokens = new ArrayList<>(Arrays.asList(tokens));
         Assert.assertEquals(expectedTokens, tokenizedLines);
     }
 
     @Test
     public void readAllFilesTest() {
-        try {
-            fileReader.readAllFiles();
-        } catch (IOException ioe) {
-            Assert.fail();
-        }
-        File team = new File(fileReader.folderPath + "\\Team.txt");
-        File one = new File(fileReader.folderPath + "\\One.txt");
-        String[] teamTokens = { "star", "academy", "phase", "three" };
-        String[] oneTokens = { "unit", "test", "feature", "branch" };
-        Assert.assertEquals(Arrays.asList(teamTokens), fileReader.allFilesTokens.get(team));
-        Assert.assertEquals(Arrays.asList(oneTokens), fileReader.allFilesTokens.get(one));
+        fileReader.readAllFiles();
+
+        File team = new File(fileReader.getFolderPath() + "\\Team.txt");
+        File one = new File(fileReader.getFolderPath() + "\\One.txt");
+        String[] teamTokens = {"star", "academy", "phase", "three"};
+        String[] oneTokens = {"unit", "test", "feature", "branch"};
+        Assert.assertEquals(Arrays.asList(teamTokens), fileReader.getAllFilesTokens().get(team));
+        Assert.assertEquals(Arrays.asList(oneTokens), fileReader.getAllFilesTokens().get(one));
     }
 
     @Test
     public void readFilesLinesTest() {
-        File team = new File(fileReader.folderPath + "\\Team.txt");
+        File team = new File(fileReader.getFolderPath() + "\\Team.txt");
         List<String> fileLines = fileReader.getFileLines(team);
-        String[] teamLines = { "star academy", "phase three" };
+        String[] teamLines = {"star academy", "phase three"};
         Assert.assertEquals(Arrays.asList(teamLines), fileLines);
     }
 

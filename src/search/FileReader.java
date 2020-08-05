@@ -11,18 +11,18 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class FileReader {
-    public String folderPath;
-    public HashMap<File, List<String>> allFilesTokens;
+    private String folderPath;
+    private HashMap<File, List<String>> allFilesTokens;
 
     public FileReader(String folderPath) {
         this.folderPath = folderPath;
         allFilesTokens = new HashMap<>();
     }
 
-    public void readAllFiles() throws IOException {
+    public void readAllFiles() {
         File dataFolder = new File(folderPath);
 
-        for (File file : dataFolder.listFiles())
+        for (File file : Objects.requireNonNull(dataFolder.listFiles()))
             allFilesTokens.put(file, tokenizeLines(getFileLines(file)));
     }
 
@@ -56,5 +56,13 @@ public class FileReader {
             ioe.printStackTrace();
         }
         return filesNames;
+    }
+
+    public String getFolderPath() {
+        return folderPath;
+    }
+
+    public HashMap<File, List<String>> getAllFilesTokens() {
+        return allFilesTokens;
     }
 }
