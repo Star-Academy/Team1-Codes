@@ -9,10 +9,10 @@ import search.*;
 
 public class InvertedIndexTest {
     InvertedIndex invertedIndex = new InvertedIndex();
-    HashMap<File, List<String>> allTokens;
+    static HashMap<File, List<String>> allTokens;
 
     @BeforeClass
-    public void provideTokens() {
+    public static void provideTokens() {
         allTokens = new HashMap<>();
         File file1 = new File("file1");
         File file2 = new File("file2");
@@ -61,7 +61,7 @@ public class InvertedIndexTest {
         Assert.assertFalse(result.contains("file2"));
         andQueries.add("notAToken");
         result = invertedIndex.andQueryResult(andQueries);
-        Assert.assertTrue(result == null);
+        Assert.assertNull(result);
     }
 
     @Test
@@ -70,7 +70,7 @@ public class InvertedIndexTest {
         ArrayList<String> excQueries = new ArrayList<>(Arrays.asList(queries));
         
         HashSet<String> result = invertedIndex.excQueryResult(excQueries);
-        Assert.assertTrue(result.size() == 2);
+        Assert.assertEquals(2, result.size());
     }
 
 }

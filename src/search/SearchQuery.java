@@ -1,6 +1,5 @@
 package search;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Scanner;
 
@@ -13,7 +12,7 @@ public class SearchQuery {
         this.invertedIndex = invertedIndex;
     }
 
-    void processQueries() throws IOException {
+    void processQueries() {
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {
             String[] words = scanner.nextLine().split(" ");

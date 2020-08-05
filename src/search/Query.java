@@ -57,7 +57,7 @@ public class Query {
         buildFoundDocs();
 
         // TODO null object:
-        if (andDocs == null) // Uncompatible "And Queries" were found, so the result is empty
+        if (andDocs == null) // Incompatible "And Queries" were found, so the result is empty
             return new HashSet<>();
         if (!seenAnAndDoc && !seenAnOrDoc) // We have only "Exclude Queries", so result is all documents but their results
             result = Main.fileReader.getFilesNames();

@@ -11,9 +11,8 @@ public class InvertedIndex {
     public HashMap<String, HashSet<String>> allWords = new HashMap<>();
 
     public void initMap(HashMap<File, List<String>> allTokens) {
-        HashMap<File, List<String>> filesTokens = allTokens;
-        for (File file : filesTokens.keySet())
-            storeTokens(file, filesTokens.get(file));
+        for (File file : allTokens.keySet())
+            storeTokens(file, allTokens.get(file));
     }
 
     public void storeTokens(File file, List<String> fileTokens) {
