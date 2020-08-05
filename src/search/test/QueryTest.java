@@ -14,37 +14,37 @@ public class QueryTest{
 
         HashSet<String> docs1 = new HashSet<>();
         docs1.add("d1");
-        query.invertedIndex.getAllWords().put("or1", docs1);
+        query.getInvertedIndex().getAllWords().put("or1", docs1);
 
         HashSet<String> docs2 = new HashSet<>();
         docs2.add("d2");
-        query.invertedIndex.getAllWords().put("or2", docs2);
+        query.getInvertedIndex().getAllWords().put("or2", docs2);
 
         HashSet<String> docs3 = new HashSet<>();
         docs3.add("d3");
-        query.invertedIndex.getAllWords().put("or3", docs3);
+        query.getInvertedIndex().getAllWords().put("or3", docs3);
 
         HashSet<String> docs4 = new HashSet<>();
         docs4.add("d2");
         docs4.add("d1");
-        query.invertedIndex.getAllWords().put("and1", docs4);
+        query.getInvertedIndex().getAllWords().put("and1", docs4);
 
         HashSet<String> docs5 = new HashSet<>();
         docs5.add("d1");
         docs5.add("d2");
-        query.invertedIndex.getAllWords().put("and2", docs5);
+        query.getInvertedIndex().getAllWords().put("and2", docs5);
 
         HashSet<String> docs8 = new HashSet<>();
         docs8.add("d4");
-        query.invertedIndex.getAllWords().put("and3", docs8);
+        query.getInvertedIndex().getAllWords().put("and3", docs8);
 
         HashSet<String> docs6 = new HashSet<>();
         docs6.add("d1");
-        query.invertedIndex.getAllWords().put("exc1", docs6);
+        query.getInvertedIndex().getAllWords().put("exc1", docs6);
 
         HashSet<String> docs7 = new HashSet<>();
         docs7.add("d3");
-        query.invertedIndex.getAllWords().put("exc2", docs7);
+        query.getInvertedIndex().getAllWords().put("exc2", docs7);
 
         /////////////////////////////////
     }
@@ -64,24 +64,25 @@ public class QueryTest{
         expectedExcQueries.add("exc1");
         expectedExcQueries.add("exc2");
 
-        Assert.assertEquals(query.orQueries, expectedOrQueries);
-        Assert.assertEquals(query.andQueries, expectedAndQueries);
-        Assert.assertEquals(query.excQueries, expectedExcQueries);
+        Assert.assertEquals(query.getOrQueries(), expectedOrQueries);
+        Assert.assertEquals(query.getAndQueries(), expectedAndQueries);
+        Assert.assertEquals(query.getExcQueries(), expectedExcQueries);
     }
 
     @Test
     public void buildResultTest1(){
-        query.orQueries.add("or1");      // d1
-        query.orQueries.add("or2");      // d2
-        query.orQueries.add("or3");      // d3
+        query.getOrQueries().add("or1");      // d1
+        query.getOrQueries().add("or2");      // d2
+        query.getOrQueries().add("or3");      // d3
 
-        query.andQueries.add("and1");       // d1,d2
-        query.andQueries.add("and2");       // d1,d2
+        query.getAndQueries().add("and1");       // d1,d2
+        query.getAndQueries().add("and2");       // d1,d2
 
-        query.excQueries.add("exc1");       // d1
-        query.excQueries.add("exc2");       // d3
+        query.getExcQueries().add("exc1");       // d1
+        query.getExcQueries().add("exc2");       // d3
 
-        query.seenAnAndDoc = query.seenAnOrDoc = true;
+        query.setSeenAnAndDoc(true);
+        query.setSeenAnOrDoc(true);
 
         ////////////////////////
 
@@ -93,13 +94,13 @@ public class QueryTest{
     @Test
     public void buildResultTest2(){
 
-        query.andQueries.add("and1");       // d1,d2
-        query.andQueries.add("and2");       // d1,d2
+        query.getAndQueries().add("and1");       // d1,d2
+        query.getAndQueries().add("and2");       // d1,d2
 
-        query.excQueries.add("exc1");       // d1
-        query.excQueries.add("exc2");       // d3
+        query.getExcQueries().add("exc1");       // d1
+        query.getExcQueries().add("exc2");       // d3
 
-        query.seenAnAndDoc = true;
+        query.setSeenAnAndDoc(true);
 
         HashSet<String> result = new HashSet<>();
         Collections.addAll(result, "d2");
@@ -109,13 +110,13 @@ public class QueryTest{
     @Test
     public void buildResultTest3(){
 
-        query.orQueries.add("or1");      // d1
-        query.orQueries.add("or2");      // d2
-        query.orQueries.add("or3");      // d3
+        query.getOrQueries().add("or1");      // d1
+        query.getOrQueries().add("or2");      // d2
+        query.getOrQueries().add("or3");      // d3
 
-        query.excQueries.add("exc1");       // d1
+        query.getExcQueries().add("exc1");       // d1
 
-        query.seenAnOrDoc = true;
+        query.setSeenAnOrDoc(true);
 
         HashSet<String> result = new HashSet<>();
         Collections.addAll(result, "d3", "d2");
@@ -125,11 +126,12 @@ public class QueryTest{
     @Test
     public void buildResultTest4(){
 
-        query.orQueries.add("or1");         // d1
-        query.andQueries.add("and3");       // d4
-        query.excQueries.add("exc2");       // d3
+        query.getOrQueries().add("or1");         // d1
+        query.getAndQueries().add("and3");       // d4
+        query.getExcQueries().add("exc2");       // d3
 
-        query.seenAnOrDoc = query.seenAnAndDoc = true;
+        query.setSeenAnOrDoc(true);
+        query.setSeenAnAndDoc(true);
 
         HashSet<String> result = new HashSet<>();
         Assert.assertEquals(result, query.buildResult());

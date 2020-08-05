@@ -5,18 +5,18 @@ import java.util.HashSet;
 
 public class Query {
 
-    public InvertedIndex invertedIndex;
+    private InvertedIndex invertedIndex;
 
-    public boolean seenAnOrDoc, seenAnAndDoc;
+    private boolean seenAnOrDoc, seenAnAndDoc;
 
-    public ArrayList<String> orQueries;
-    public ArrayList<String> andQueries;
-    public ArrayList<String> excQueries;
+    private ArrayList<String> orQueries;
+    private ArrayList<String> andQueries;
+    private ArrayList<String> excQueries;
 
-    public HashSet<String> orDocs;
-    public HashSet<String> andDocs;
-    public HashSet<String> excDocs;
-    public HashSet<String> result;
+    private HashSet<String> orDocs;
+    private HashSet<String> andDocs;
+    private HashSet<String> excDocs;
+    private HashSet<String> result;
 
     public Query(InvertedIndex invertedIndex) {
         seenAnOrDoc = seenAnAndDoc = false;
@@ -72,6 +72,54 @@ public class Query {
         // In the end, we need to omit all the "Excluded Queries" results and return it..
         result.removeAll(excDocs);
 
+        return result;
+    }
+
+    public InvertedIndex getInvertedIndex() {
+        return invertedIndex;
+    }
+
+    public boolean hasSeenAnOrDoc() {
+        return seenAnOrDoc;
+    }
+
+    public boolean hasSeenAnAndDoc() {
+        return seenAnAndDoc;
+    }
+
+    public void setSeenAnOrDoc(boolean seenAnOrDoc) {
+        this.seenAnOrDoc = seenAnOrDoc;
+    }
+
+    public void setSeenAnAndDoc(boolean seenAnAndDoc) {
+        this.seenAnAndDoc = seenAnAndDoc;
+    }
+
+    public ArrayList<String> getOrQueries() {
+        return orQueries;
+    }
+
+    public ArrayList<String> getAndQueries() {
+        return andQueries;
+    }
+
+    public ArrayList<String> getExcQueries() {
+        return excQueries;
+    }
+
+    public HashSet<String> getOrDocs() {
+        return orDocs;
+    }
+
+    public HashSet<String> getAndDocs() {
+        return andDocs;
+    }
+
+    public HashSet<String> getExcDocs() {
+        return excDocs;
+    }
+
+    public HashSet<String> getResult() {
         return result;
     }
 }
