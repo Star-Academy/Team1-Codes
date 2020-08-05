@@ -8,7 +8,7 @@ import java.util.List;
 
 public class InvertedIndex {
 
-    HashMap<String, HashSet<String>> allWords = new HashMap<>();
+    public HashMap<String, HashSet<String>> allWords = new HashMap<>();
 
     public void initMap(HashMap<File, List<String>> allTokens) {
         HashMap<File, List<String>> filesTokens = allTokens;

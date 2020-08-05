@@ -14,10 +14,10 @@ public class FileReaderTest {
     @Test
     public void filesNamesTest() {
         HashSet<String> filesNames = fileReader.getFilesNames();
-        HashSet<String> expextedFiles = new HashSet<>();
-        expextedFiles.add("Team.txt");
-        expextedFiles.add("One.txt");
-        Assert.assertEquals(expextedFiles, filesNames);
+        HashSet<String> expectedFiles = new HashSet<>();
+        expectedFiles.add("Team.txt");
+        expectedFiles.add("One.txt");
+        Assert.assertEquals(expectedFiles, filesNames);
     }
 
     @Test
