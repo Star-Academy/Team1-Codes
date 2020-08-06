@@ -5,13 +5,13 @@ import java.util.HashSet;
 
 public class Query {
 
-    private InvertedIndex invertedIndex;
+    private final InvertedIndex invertedIndex;
 
     private boolean seenAnOrDoc, seenAnAndDoc;
 
-    private ArrayList<String> orQueries;
-    private ArrayList<String> andQueries;
-    private ArrayList<String> excQueries;
+    private final ArrayList<String> orQueries;
+    private final ArrayList<String> andQueries;
+    private final ArrayList<String> excQueries;
 
     private HashSet<String> orDocs;
     private HashSet<String> andDocs;
@@ -47,9 +47,10 @@ public class Query {
     }
 
     public void buildFoundDocs() {
-        orDocs = invertedIndex.orQueryResult(orQueries);
-        andDocs = invertedIndex.andQueryResult(andQueries);
-        excDocs = invertedIndex.excQueryResult(excQueries);
+        QueryResult queryResult = new QueryResult(invertedIndex.getAllWords());
+        orDocs = queryResult.orQueryResult(orQueries);
+        andDocs = queryResult.andQueryResult(andQueries);
+        excDocs = queryResult.excQueryResult(excQueries);
     }
 
     public HashSet<String> buildResult() {
@@ -59,7 +60,7 @@ public class Query {
         // TODO null object:
         if (andDocs == null) // Incompatible "And Queries" were found, so the result is empty
             return new HashSet<>();
-        if (!seenAnAndDoc && !seenAnOrDoc) // We have only "Exclude Queries", so result is all documents but their results
+        if (!seenAnAndDoc && !seenAnOrDoc) // We have only "Exclude Queries", so result is {all documents - Exc results}
             result = Main.fileReader.getFilesNames();
         else if (!seenAnOrDoc) // No "Or Queries" were found, so the result is equal to "And Queries" results
             result = andDocs;
@@ -73,18 +74,6 @@ public class Query {
         result.removeAll(excDocs);
 
         return result;
-    }
-
-    public InvertedIndex getInvertedIndex() {
-        return invertedIndex;
-    }
-
-    public boolean hasSeenAnOrDoc() {
-        return seenAnOrDoc;
-    }
-
-    public boolean hasSeenAnAndDoc() {
-        return seenAnAndDoc;
     }
 
     public void setSeenAnOrDoc(boolean seenAnOrDoc) {
@@ -107,19 +96,4 @@ public class Query {
         return excQueries;
     }
 
-    public HashSet<String> getOrDocs() {
-        return orDocs;
-    }
-
-    public HashSet<String> getAndDocs() {
-        return andDocs;
-    }
-
-    public HashSet<String> getExcDocs() {
-        return excDocs;
-    }
-
-    public HashSet<String> getResult() {
-        return result;
-    }
 }

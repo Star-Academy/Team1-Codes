@@ -3,14 +3,19 @@ package search.test;
 import org.junit.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.util.*;
 
 import search.FileReader;
 
 public class FileReaderTest {
-    FileReader fileReader = new FileReader(".\\src\\search\\test\\testDocuments\\");
+    static final String TEST_DOCS_PATH = ".\\src\\search\\test\\testDocuments\\";
+    static FileReader fileReader;
+
+    @BeforeClass
+    public static void setUp() {
+        fileReader = new FileReader(TEST_DOCS_PATH);
+    }
 
     @Test
     public void filesNamesTest() {

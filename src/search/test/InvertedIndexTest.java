@@ -40,37 +40,4 @@ public class InvertedIndexTest {
         expectedFiles.add("file2");
         Assert.assertEquals(expectedFiles, invertedIndex.getAllWords().get("star"));
     }
-
-    @Test
-    public void orQueryResultTest() {
-        String[] queries = {"phase", "3"};
-        ArrayList<String> orQueries = new ArrayList<>(Arrays.asList(queries));
-
-        HashSet<String> result = invertedIndex.orQueryResult(orQueries);
-        Assert.assertTrue(result.contains("file1"));
-        Assert.assertFalse(result.contains("file2"));
-    }
-
-    @Test
-    public void andQueryResultTest() {
-        String[] queries = {"phase", "three"};
-        ArrayList<String> andQueries = new ArrayList<>(Arrays.asList(queries));
-
-        HashSet<String> result = invertedIndex.andQueryResult(andQueries);
-        Assert.assertTrue(result.contains("file1"));
-        Assert.assertFalse(result.contains("file2"));
-        andQueries.add("notAToken");
-        result = invertedIndex.andQueryResult(andQueries);
-        Assert.assertNull(result);
-    }
-
-    @Test
-    public void excQueryResultTest() {
-        String[] queries = {"phase", "three"};
-        ArrayList<String> excQueries = new ArrayList<>(Arrays.asList(queries));
-
-        HashSet<String> result = invertedIndex.excQueryResult(excQueries);
-        Assert.assertEquals(2, result.size());
-    }
-
 }
