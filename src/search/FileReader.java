@@ -51,6 +51,7 @@ public class FileReader {
         return folderPath;
     }
 
+
     public HashMap<File, List<String>> getAllFilesTokens() {
         return allFilesTokens;
     }
