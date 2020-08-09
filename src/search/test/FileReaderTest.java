@@ -27,17 +27,6 @@ public class FileReaderTest {
     }
 
     @Test
-    public void tokenizeLinesTest() {
-        List<String> fileLines = new ArrayList<>();
-        fileLines.add("Star$Academy");
-        fileLines.add("phase  three");
-        List<String> tokenizedLines = fileReader.tokenizeLines(fileLines);
-        String[] tokens = {"star", "academy", "phase", "three"};
-        List<String> expectedTokens = new ArrayList<>(Arrays.asList(tokens));
-        Assert.assertEquals(expectedTokens, tokenizedLines);
-    }
-
-    @Test
     public void readAllFilesTest() {
         fileReader.readAllFiles();
 
