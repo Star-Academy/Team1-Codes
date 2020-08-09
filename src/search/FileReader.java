@@ -6,13 +6,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static search.Tokenizer.tokenizeLines;
+
 public class FileReader {
-    private String folderPath;
-    private HashMap<File, List<String>> allFilesTokens;
+    private final String folderPath;
+    private final HashMap<File, List<String>> allFilesTokens;
 
     public FileReader(String folderPath) {
         this.folderPath = folderPath;
@@ -24,17 +24,6 @@ public class FileReader {
 
         for (File file : Objects.requireNonNull(dataFolder.listFiles()))
             allFilesTokens.put(file, tokenizeLines(getFileLines(file)));
-    }
-
-    public List<String> tokenizeLines(List<String> fileLines) {
-        ArrayList<String> fileTokens = new ArrayList<>();
-
-        for (String line : fileLines) {
-            Matcher matcher = Pattern.compile("\\w+").matcher(line);
-            while (matcher.find())
-                fileTokens.add(matcher.group().toLowerCase());
-        }
-        return fileTokens;
     }
 
     public List<String> getFileLines(File file) {
