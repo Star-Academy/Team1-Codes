@@ -13,9 +13,9 @@ public class Query {
     private final ArrayList<String> andQueries;
     private final ArrayList<String> excQueries;
 
-    private HashSet<String> orDocs;
-    private HashSet<String> andDocs;
-    private HashSet<String> excDocs;
+    private FoundDocs orDocs;
+    private FoundDocs andDocs;
+    private FoundDocs excDocs;
     private HashSet<String> result;
 
     public Query(InvertedIndex invertedIndex) {
@@ -23,9 +23,6 @@ public class Query {
         orQueries = new ArrayList<>();
         andQueries = new ArrayList<>();
         excQueries = new ArrayList<>();
-        orDocs = new HashSet<>();
-        andDocs = new HashSet<>();
-        excDocs = new HashSet<>();
         result = new HashSet<>();
         this.invertedIndex = invertedIndex;
     }
@@ -57,21 +54,20 @@ public class Query {
         // searching the queries
         buildFoundDocs();
 
-        // TODO null object:
-        if (andDocs == null) // Incompatible "And Queries" were found, so the result is empty
+        if (andDocs.isNull) // Incompatible "And Queries" were found, so the result is empty
             return new HashSet<>();
         if (!seenAnAndDoc && !seenAnOrDoc) // We have only "Exclude Queries", so result is {all documents - Exc results}
             result = Main.fileReader.getFilesNames();
         else if (!seenAnOrDoc) // No "Or Queries" were found, so the result is equal to "And Queries" results
-            result = andDocs;
+            result = andDocs.getFoundDocs();
         else if (!seenAnAndDoc) // No "And Queries" were found, so the result is equal to "Or Queries" results
-            result = orDocs;
+            result = orDocs.getFoundDocs();
         else { // Here we have to calculate the intersection of "And Queries" and "Or Queries"
-            andDocs.retainAll(orDocs);
-            result = andDocs;
+            result = andDocs.getFoundDocs();
+            result.retainAll(orDocs.getFoundDocs());
         }
         // In the end, we need to omit all the "Excluded Queries" results and return it..
-        result.removeAll(excDocs);
+        result.removeAll(excDocs.getFoundDocs());
 
         return result;
     }

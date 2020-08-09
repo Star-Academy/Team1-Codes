@@ -30,7 +30,7 @@ public class QueryResultTest {
         String[] queries = {"phase", "3"};
         ArrayList<String> orQueries = new ArrayList<>(Arrays.asList(queries));
 
-        HashSet<String> result = queryResult.orQueryResult(orQueries);
+        HashSet<String> result = queryResult.orQueryResult(orQueries).getFoundDocs();
         Assert.assertTrue(result.contains("file1"));
         Assert.assertFalse(result.contains("file2"));
     }
@@ -40,11 +40,11 @@ public class QueryResultTest {
         String[] queries = {"phase", "three"};
         ArrayList<String> andQueries = new ArrayList<>(Arrays.asList(queries));
 
-        HashSet<String> result = queryResult.andQueryResult(andQueries);
+        HashSet<String> result = queryResult.andQueryResult(andQueries).getFoundDocs();
         Assert.assertTrue(result.contains("file1"));
         Assert.assertFalse(result.contains("file2"));
         andQueries.add("notAToken");
-        result = queryResult.andQueryResult(andQueries);
+        result = queryResult.andQueryResult(andQueries).getFoundDocs();
         Assert.assertNull(result);
     }
 
@@ -53,7 +53,7 @@ public class QueryResultTest {
         String[] queries = {"phase", "three"};
         ArrayList<String> excQueries = new ArrayList<>(Arrays.asList(queries));
 
-        HashSet<String> result = queryResult.excQueryResult(excQueries);
+        HashSet<String> result = queryResult.excQueryResult(excQueries).getFoundDocs();
         Assert.assertEquals(2, result.size());
     }
 
