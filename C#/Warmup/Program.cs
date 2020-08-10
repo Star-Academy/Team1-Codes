@@ -7,8 +7,8 @@ namespace Project02
     {
         private static void Main(string[] args)
         {
-            const string scoresPath = "scores.json";
-            const string studentsPath = "students.json";
+            const string scoresPath = "data\\scores.json";
+            const string studentsPath = "data\\students.json";
 
             var scoreLogs = ReadData.Read<ScoreLog>(scoresPath);
             var students = ReadData.Read<Student>(studentsPath);
