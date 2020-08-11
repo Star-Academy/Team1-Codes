@@ -7,35 +7,16 @@ namespace Project02
     {
         private static void Main(string[] args)
         {
-            const string scoresPath = "data\\scores.json";
-            const string studentsPath = "data\\students.json";
+            const string ScoresPath = "data\\scores.json";
+            const string StudentsPath = "data\\students.json";
 
-            var scoreLogs = ReadData.Read<ScoreLog>(scoresPath);
-            var students = ReadData.Read<Student>(studentsPath);
+            ReadData readData = new ReadData();
+            var scoreLogs = readData.Read<ScoreLog>(ScoresPath);
+            var students = readData.Read<Student>(StudentsPath);
 
             if (scoreLogs == null || students == null) return;
 
-            var scores = scoreLogs.GroupBy(scoreLog => scoreLog.StudentNumber)
-                .Select(group => new
-                {
-                    StudentId = group.Key,
-                    Average = group.Average(y => y.Score)
-                });
-
-            var result = students.Join(scores,
-                    student => student.StudentNumber,
-                    score => score.StudentId,
-                    (student, score) => new
-                    {
-                        StudentName = student.FirstName + " " + student.LastName,
-                        score.Average
-                    })
-                .OrderByDescending(x => x.Average).ToList();
-
-            foreach (var student in result.Take(3))
-            {
-                Console.WriteLine(student.StudentName + " " + student.Average);
-            }
+            new PrintResult().Print(new AverageProcess().Process(students, scoreLogs));
         }
     }
 }
