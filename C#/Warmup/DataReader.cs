@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Project02
 {
-    public class ReadData
+    public class DataReader
     {
         public List<T> Read<T>(string src)
         {
