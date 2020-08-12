@@ -12,7 +12,7 @@ namespace SearchLibrary.Test
         [Fact]
         public void GetFileContentTest() {
             var actualContent = fileReader.GetContent(TestDocumentsPath + "\\Team.txt");
-            var expectedContent = new List<string> {"star", "academy", "phase", "five"}; 
+            var expectedContent = "star academy\nphase five"; 
             Assert.Equal(expectedContent, actualContent);
         }
     }

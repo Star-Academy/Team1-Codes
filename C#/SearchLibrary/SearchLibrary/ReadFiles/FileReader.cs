@@ -7,9 +7,9 @@ namespace SearchLibrary.ReadFiles
 {
     public class FileReader : IReader
     {
-        public List<string> GetContent(string path)
+        public string GetContent(string path)
         {
-            return Regex.Matches(File.ReadAllText(path), "\\w+").Cast<Match>().Select(x => x.Value.Trim()).ToList();
+            return File.ReadAllText(path);
         }
     }
 }
