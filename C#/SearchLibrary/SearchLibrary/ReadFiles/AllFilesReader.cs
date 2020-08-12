@@ -6,6 +6,7 @@ namespace SearchLibrary.ReadFiles
 {
     public class AllFilesReader
     {
+        FileReader fileReader = new FileReader();
         private string documentsPath;
 
         public AllFilesReader(string folderPath)
@@ -17,16 +18,17 @@ namespace SearchLibrary.ReadFiles
         {
             var allFilesContents = new Dictionary<string, List<string>>();
 
-            var fileReader = new FileReader();
             var tokenizer = new Tokenizer("\\w+");
             string[] filePaths = Directory.GetFiles(documentsPath, "*.txt", SearchOption.AllDirectories);
             foreach (var filePath in filePaths)
             {
-                var contents = fileReader.GetContent(filePath);
-                var tokenizedContent = tokenizer.getTokens(contents);
-                allFilesContents.Add(Path.GetFileName(filePath), tokenizedContent);
+                allFilesContents.Add(Path.GetFileName(filePath), ReadFile(filePath, tokenizer));
             }
             return allFilesContents;
+        }
+
+        public List<string> ReadFile(string filePath, Tokenizer tokenizer) {
+            return tokenizer.getTokens(fileReader.GetContent(filePath));
         }
 
         public List<string> getAllFilesNames()

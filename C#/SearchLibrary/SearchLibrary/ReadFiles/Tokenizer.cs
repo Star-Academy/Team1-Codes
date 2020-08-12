@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace SearchLibrary.ReadFiles
 {
-    internal class Tokenizer
+    public class Tokenizer
     {
         private string pattern;
 
