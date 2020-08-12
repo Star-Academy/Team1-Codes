@@ -12,7 +12,7 @@ namespace SearchLibrary.Test
         [Fact]
         public void GetFilesNameTest() {
             var actualNames = allFilesReader.getAllFilesNames();
-            var expectedNames = new List<string> {"Team.txt", "One.txt"};
+            var expectedNames = new List<string> {"One.txt", "Team.txt"};
             Assert.Equal(expectedNames, actualNames);
         }
 
@@ -23,7 +23,7 @@ namespace SearchLibrary.Test
             var expectedOneTokens = new List<string> {"unit", "test", "feature", "branch"};
             
             Assert.Equal(expectedTeamTokens, actualDict.GetValueOrDefault("Team.txt"));
-            Assert.Equal(expectedTeamTokens, actualDict.GetValueOrDefault("One.txt"));
+            Assert.Equal(expectedOneTokens, actualDict.GetValueOrDefault("One.txt"));
         }
     }
 }
