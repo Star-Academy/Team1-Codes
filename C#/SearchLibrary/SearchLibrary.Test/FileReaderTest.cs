@@ -6,7 +6,7 @@ namespace SearchLibrary.Test
 {
     public class FileReaderTest
     {
-        const string TestDocumentsPath = "C:\\Users\\ASC\\Desktop\\testDocuments";
+        const string TestDocumentsPath = "..\\..\\..\\..\\..\\..\\Resources\\testDocuments";
         FileReader fileReader = new FileReader();
 
         [Fact]
@@ -14,6 +14,11 @@ namespace SearchLibrary.Test
             var actualContent = fileReader.GetContent(TestDocumentsPath + "\\Team.txt");
             var expectedContent = new List<string> {"star", "academy", "phase", "five"}; 
             Assert.Equal(expectedContent, actualContent);
+        }
+
+        [Fact]
+        public void GetFilesNameTest() {
+            
         }
     }
 }

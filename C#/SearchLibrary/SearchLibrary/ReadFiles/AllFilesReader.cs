@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace SearchLibrary.ReadFiles
 {
@@ -12,10 +13,10 @@ namespace SearchLibrary.ReadFiles
             documentsPath = folderPath;
         }
 
-        Dictionary<string, List<string>> ReadAllFiles()
+        public Dictionary<string, List<string>> ReadAllFiles()
         {
             var allFilesContents = new Dictionary<string, List<string>>();
-            
+
             var fileReader = new FileReader();
             string[] filePaths = Directory.GetFiles(documentsPath, "*.txt", SearchOption.AllDirectories);
             foreach (var filePath in filePaths)
@@ -24,6 +25,12 @@ namespace SearchLibrary.ReadFiles
                 allFilesContents.Add(Path.GetFileName(filePath), contents);
             }
             return allFilesContents;
+        }
+
+        public List<string> getAllFilesNames()
+        {
+            return Directory.GetFiles(documentsPath, "*.txt", SearchOption.AllDirectories)
+                .Select(x => Path.GetFileName(x)).ToList();
         }
     }
 }
