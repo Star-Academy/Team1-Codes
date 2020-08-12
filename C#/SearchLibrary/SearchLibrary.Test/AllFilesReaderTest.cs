@@ -13,6 +13,7 @@ namespace SearchLibrary.Test
             var allFilesReader = new AllFilesReader(TestDocumentsPath);
             var actualNames = allFilesReader.getAllFilesNames();
             var expectedNames = new List<string> {"Team.txt", "One.txt"};
+            Assert.Equal(expectedNames, actualNames);
         }
     }
 }

@@ -15,11 +15,6 @@ namespace SearchLibrary.Test
             var expectedContent = new List<string> {"star", "academy", "phase", "five"}; 
             Assert.Equal(expectedContent, actualContent);
         }
-
-        [Fact]
-        public void GetFilesNameTest() {
-            
-        }
     }
 }
 
