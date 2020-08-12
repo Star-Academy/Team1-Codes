@@ -12,7 +12,7 @@ namespace Project02
                             scoreLog => scoreLog.StudentNumber,
                             (student, score) => new ResultType()
                             {
-                                StudentName = student.FirstName + " " + student.LastName,
+                                StudentName = $"{student.FirstName} {student.LastName}",
                                 Average = score.Average(x => x.Score)
                             })
                         .OrderByDescending(x => x.Average).ToList();

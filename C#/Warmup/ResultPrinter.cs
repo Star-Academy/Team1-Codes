@@ -17,7 +17,7 @@ namespace Project02
         {
             foreach (var student in result.Take(NumberToPrint))
             {
-                Console.WriteLine(student.StudentName + " " + student.Average);
+                Console.WriteLine($"{student.StudentName} {student.Average}");
             }
         }
     }
