@@ -5,8 +5,8 @@ namespace SearchLibrary
 {
     public class QueryProcessor
     {
-        public bool seenAndQuery, seenOrQuery;
-        private InvertedIndex invertedIndex;
+        private bool seenAndQuery, seenOrQuery;
+        private readonly InvertedIndex invertedIndex;
 
         public QueryProcessor(InvertedIndex invertedIndex)
         {
@@ -24,10 +24,10 @@ namespace SearchLibrary
         }
         public Query Analyze(string rawQuery)
         {
-            Query result = new Query();
-            List<string> andQueries = new List<string>();
-            List<string> orQueries = new List<string>();
-            List<string> excQueries = new List<string>();
+            var result = new Query();
+            var andQueries = new List<string>();
+            var orQueries = new List<string>();
+            var excQueries = new List<string>();
 
             var words = rawQuery.Split(' ');
             foreach (var word in words)

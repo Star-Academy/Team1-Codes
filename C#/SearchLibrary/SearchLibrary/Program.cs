@@ -10,7 +10,7 @@ namespace SearchLibrary
     /// </summary>
     public class Program
     {
-        QueryProcessor queryProcessor;
+        private QueryProcessor queryProcessor;
         public void SetUpInvertIndexSearch(string documentsPath)
         {
             var filesContents = new AllFilesReader(documentsPath).ReadAllFiles();
@@ -22,14 +22,14 @@ namespace SearchLibrary
         public string Search(string query)
         {
             var result = queryProcessor.Process(query);
-            return getQueryResultOutput(result);
+            return GetQueryResultOutput(result);
         }
 
-        public string getQueryResultOutput(HashSet<string> result)
+        private static string GetQueryResultOutput(ICollection<string> result)
         {
-            if (result.Count != 0)
-                return $"Search results: {result.Aggregate((x, y) => $"{x}, {y}")}";
-            return "Query wasn't found";
+            return result.Count != 0
+                ? $"Search results: {result.Aggregate((x, y) => $"{x}, {y}")}"
+                : "Query wasn't found";
         }
     }
 }

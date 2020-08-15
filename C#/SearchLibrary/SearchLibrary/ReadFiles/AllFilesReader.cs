@@ -6,8 +6,8 @@ namespace SearchLibrary.ReadFiles
 {
     public class AllFilesReader
     {
-        FileReader fileReader = new FileReader();
-        private string documentsPath;
+        private readonly FileReader fileReader = new FileReader();
+        private readonly string documentsPath;
 
         public AllFilesReader(string folderPath)
         {
@@ -16,25 +16,21 @@ namespace SearchLibrary.ReadFiles
 
         public Dictionary<string, List<string>> ReadAllFiles()
         {
-            var allFilesContents = new Dictionary<string, List<string>>();
-
             var tokenizer = new Tokenizer("\\w+");
-            string[] filePaths = Directory.GetFiles(documentsPath, "*.txt", SearchOption.AllDirectories);
-            foreach (var filePath in filePaths)
-            {
-                allFilesContents.Add(Path.GetFileName(filePath), ReadFile(filePath, tokenizer));
-            }
-            return allFilesContents;
+            var filePaths = Directory.GetFiles(documentsPath, "*.txt", SearchOption.AllDirectories);
+            return filePaths.ToDictionary(Path.GetFileName,
+                filePath => ReadFile(filePath, tokenizer));
         }
 
-        public List<string> ReadFile(string filePath, Tokenizer tokenizer) {
-            return tokenizer.getTokens(fileReader.GetContent(filePath));
+        public List<string> ReadFile(string filePath, Tokenizer tokenizer)
+        {
+            return tokenizer.GetTokens(fileReader.GetContent(filePath));
         }
 
-        public List<string> getAllFilesNames()
+        public List<string> GetAllFilesNames()
         {
             return Directory.GetFiles(documentsPath, "*.txt", SearchOption.AllDirectories)
-                .Select(x => Path.GetFileName(x)).ToList();
+                .Select(Path.GetFileName).ToList();
         }
     }
 }

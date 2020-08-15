@@ -8,13 +8,8 @@ namespace SearchLibrary
     /// </summary>
     public class InvertedIndex
     {
-        public virtual HashSet<string> AllFilesNames { get; set; }
-        private Dictionary<string, HashSet<string>> map;
-        public virtual Dictionary<string, HashSet<string>> Map
-        {
-            get { return map; }
-            private set { map = value; }
-        }
+        public virtual HashSet<string> AllFilesNames { get; protected set; }
+        public virtual Dictionary<string, HashSet<string>> Map { get; private set; }
 
         public void InitMap(Dictionary<string, List<string>> allFiles)
         {
@@ -27,15 +22,14 @@ namespace SearchLibrary
             }
         }
 
-        public void StoreTokens(string fileName, List<string> words)
+        private void StoreTokens(string fileName, IEnumerable<string> words)
         {
             foreach (var word in words)
             {
-                HashSet<string> set;
-                if (Map.TryGetValue(word, out set))
+                if (Map.TryGetValue(word, out var set))
                     set.Add(fileName);
                 else
-                    Map.Add(word, new HashSet<string>() { fileName });
+                    Map.Add(word, new HashSet<string> {fileName});
             }
         }
     }

@@ -1,7 +1,4 @@
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace SearchLibrary.ReadFiles
 {
@@ -9,7 +6,7 @@ namespace SearchLibrary.ReadFiles
     {
         public string GetContent(string path)
         {
-            return File.ReadAllText(path.ToLower());
+            return File.ReadAllText(path).ToLower();
         }
     }
 }

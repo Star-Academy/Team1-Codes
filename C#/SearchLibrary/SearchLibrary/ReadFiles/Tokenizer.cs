@@ -6,14 +6,14 @@ namespace SearchLibrary.ReadFiles
 {
     public class Tokenizer
     {
-        private string pattern;
+        private readonly string pattern;
 
         public Tokenizer(string pattern)
         {
             this.pattern = pattern;
         }
 
-        internal List<string> getTokens(string text) {
+        internal List<string> GetTokens(string text) {
             return Regex.Matches(text, pattern).Cast<Match>().Select(x => x.Value.Trim()).ToList();
         }
     }
