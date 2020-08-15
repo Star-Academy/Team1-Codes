@@ -27,7 +27,7 @@ namespace SearchLibrary
 
         private static string GetQueryResultOutput(ICollection<string> result)
         {
-            return result.Count != 0
+            return result.Any()
                 ? $"Search results: {result.Aggregate((x, y) => $"{x}, {y}")}"
                 : "Query wasn't found";
         }
