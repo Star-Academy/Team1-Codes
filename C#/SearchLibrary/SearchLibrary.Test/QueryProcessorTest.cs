@@ -75,37 +75,26 @@ namespace SearchLibrary.Test
         }
 
         [Theory]
-        [MemberData(nameof(Data))]
+        [MemberData(nameof(TestData))]
         public void ProcessTest(string rawQuery, HashSet<string> expected)
         {
             Assert.Equal(expected, queryProcessor.Process(rawQuery));
         }
 
-        public static IEnumerable<object[]> Data =>
+        public static IEnumerable<object[]> TestData =>
             new List<object[]>
             {
                 new object[] {"unit +branch -star", new HashSet<string> {"One"}},
-
                 new object[] {"-branch", new HashSet<string> {"Team"}},
-
                 new object[] {"+five +disk -unit", new HashSet<string> {"two", "Team"}},
-
                 new object[] {"feature -unit", new HashSet<string>()},
-
                 new object[] {"invalid1 +five", new HashSet<string>()},
-
                 new object[] {"+invalid1 five", new HashSet<string>()},
-
                 new object[] {"-invalid1 +five", new HashSet<string> {"two", "Team"}},
-
                 new object[] {"+invalid1 +invalid2", new HashSet<string>()},
-
                 new object[] {"invalid1 invalid2", new HashSet<string>()},
-
                 new object[] {"+invalid1 +invalid2 -invalid3", new HashSet<string>()},
-
                 new object[] {"+invalid1 +invalid2 -five", new HashSet<string>()},
-
                 new object[] {"-invalid1", new HashSet<string> {"One", "two", "Team"}}
             };
     }
