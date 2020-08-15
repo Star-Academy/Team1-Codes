@@ -9,7 +9,7 @@ namespace SearchLibrary.ReadFiles
     {
         public string GetContent(string path)
         {
-            return File.ReadAllText(path);
+            return File.ReadAllText(path.ToLower());
         }
     }
 }

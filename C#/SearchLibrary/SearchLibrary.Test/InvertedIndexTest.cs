@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using SearchLibrary.ReadFiles;
 using Xunit;
 
 namespace SearchLibrary.Test
@@ -15,9 +14,9 @@ namespace SearchLibrary.Test
             inv.InitMap(new Dictionary<string, List<string>> { { key, value } });
             Dictionary<string, HashSet<string>> expected =
                     new Dictionary<string, HashSet<string>> {
-                         { "word1", new HashSet<string>{key} } ,
-                         { "word2", new HashSet<string>{key}}
-                         };
+                        { "word1", new HashSet<string>{key} } ,
+                        { "word2", new HashSet<string>{key} }
+                    };
             Assert.Equal(expected, inv.Map);
         }
 
