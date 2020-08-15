@@ -6,13 +6,13 @@ namespace SearchLibrary.Test
 {
     public class AllFilesReaderTest
     {
-        const string TestDocumentsPath = "..\\..\\..\\..\\..\\..\\Resources\\testDocuments";
+        const string TestDocumentsPath = @"..\..\..\..\..\..\Resources\testDocuments";
         AllFilesReader allFilesReader = new AllFilesReader(TestDocumentsPath);
 
         [Fact]
         public void GetFilesNameTest() {
-            var actualNames = allFilesReader.getAllFilesNames();
-            var expectedNames = new List<string> {"Team.txt", "One.txt"};
+            var actualNames = allFilesReader.GetAllFilesNames();
+            var expectedNames = new List<string> {"One.txt", "Team.txt"};
             Assert.Equal(expectedNames, actualNames);
         }
 
@@ -23,7 +23,7 @@ namespace SearchLibrary.Test
             var expectedOneTokens = new List<string> {"unit", "test", "feature", "branch"};
             
             Assert.Equal(expectedTeamTokens, actualDict.GetValueOrDefault("Team.txt"));
-            Assert.Equal(expectedTeamTokens, actualDict.GetValueOrDefault("One.txt"));
+            Assert.Equal(expectedOneTokens, actualDict.GetValueOrDefault("One.txt"));
         }
     }
 }

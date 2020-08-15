@@ -13,8 +13,8 @@ namespace SearchLibrary
             ExcDocs = new HashSet<string>();
         }
 
-        public HashSet<string> AndDocs { get; }
-        public HashSet<string> OrDocs { get; }
-        public HashSet<string> ExcDocs { get; }
+        public HashSet<string> AndDocs { get; set; }
+        public HashSet<string> OrDocs { get; set; }
+        public HashSet<string> ExcDocs { get; set; }
     }
 }
