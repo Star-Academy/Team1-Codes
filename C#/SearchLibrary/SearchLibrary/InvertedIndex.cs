@@ -26,10 +26,9 @@ namespace SearchLibrary
         {
             foreach (var word in words)
             {
-                if (Map.TryGetValue(word, out var set))
-                    set.Add(fileName);
-                else
-                    Map.Add(word, new HashSet<string> { fileName });
+                if (!Map.TryGetValue(word, out var set))
+                    Map.Add(word, new HashSet<string>());
+                Map[word].Add(fileName);
             }
         }
     }
