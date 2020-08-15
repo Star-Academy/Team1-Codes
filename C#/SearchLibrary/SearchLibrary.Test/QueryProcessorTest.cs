@@ -32,7 +32,7 @@ namespace SearchLibrary.Test
                 });
 
             invertedIndexMoq.SetupGet(i => i.AllFilesNames)
-                .Returns(new HashSet<string> {"two", "One", "Team"}); 
+                .Returns(new HashSet<string> { "two", "One", "Team" });
             return invertedIndexMoq.Object;
         }
 
@@ -84,77 +84,29 @@ namespace SearchLibrary.Test
         public static IEnumerable<object[]> Data =>
             new List<object[]>
             {
-                new object[]
-                {
-                    "unit +branch -star",
-                    new HashSet<string> { "One"}
-                },
+                new object[] {"unit +branch -star", new HashSet<string> {"One"}},
 
-                new object[]
-                {
-                    "-branch",
-                    new HashSet<string> {"Team"}
-                },
+                new object[] {"-branch", new HashSet<string> {"Team"}},
 
-                new object[]
-                {
-                    "+five +disk -unit",
-                    new HashSet<string> { "two", "Team" }
-                },
+                new object[] {"+five +disk -unit", new HashSet<string> {"two", "Team"}},
 
-                new object[]
-                {
-                    "feature -unit",
-                    new HashSet<string> ()
-                },
+                new object[] {"feature -unit", new HashSet<string>()},
 
-                new object[]
-                {
-                    "invalid1 +five",
-                    new HashSet<string> ()
-                },
+                new object[] {"invalid1 +five", new HashSet<string>()},
 
-                new object[]
-                {
-                    "+invalid1 five",
-                    new HashSet<string> ()
-                },
+                new object[] {"+invalid1 five", new HashSet<string>()},
 
-                new object[]
-                {
-                    "-invalid1 +five",
-                    new HashSet<string> {"two", "Team"}
-                },
+                new object[] {"-invalid1 +five", new HashSet<string> {"two", "Team"}},
 
-                new object[]
-                {
-                    "+invalid1 +invalid2",
-                    new HashSet<string> ()
-                },
+                new object[] {"+invalid1 +invalid2", new HashSet<string>()},
 
-                new object[]
-                {
-                    "invalid1 invalid2",
-                    new HashSet<string> ()
-                },
+                new object[] {"invalid1 invalid2", new HashSet<string>()},
 
-                new object[]
-                {
-                    "+invalid1 +invalid2 -invalid3",
-                    new HashSet<string> ()
-                },
+                new object[] {"+invalid1 +invalid2 -invalid3", new HashSet<string>()},
 
-                new object[]
-                {
-                    "+invalid1 +invalid2 -five",
-                    new HashSet<string> ()
-                },
+                new object[] {"+invalid1 +invalid2 -five", new HashSet<string>()},
 
-                new object[]
-                {
-                    "-invalid1",
-                    new HashSet<string> {"One", "two", "Team"}
-                },
+                new object[] {"-invalid1", new HashSet<string> {"One", "two", "Team"}}
             };
     }
 }

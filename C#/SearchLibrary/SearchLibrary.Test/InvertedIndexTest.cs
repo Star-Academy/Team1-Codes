@@ -6,7 +6,7 @@ namespace SearchLibrary.Test
     public class InvertedIndexTest
     {
         InvertedIndex inv = new InvertedIndex();
-        
+
         [Fact]
         public void initMapTest()
         {

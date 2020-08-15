@@ -29,7 +29,7 @@ namespace SearchLibrary
                 if (Map.TryGetValue(word, out var set))
                     set.Add(fileName);
                 else
-                    Map.Add(word, new HashSet<string> {fileName});
+                    Map.Add(word, new HashSet<string> { fileName });
             }
         }
     }

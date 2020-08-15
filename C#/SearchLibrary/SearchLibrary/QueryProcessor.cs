@@ -17,11 +17,12 @@ namespace SearchLibrary
         {
             seenAndQuery = false;
             seenOrQuery = false;
-            
+
             var query = Analyze(rawQuery);
             var foundDoc = SearchQueries(query);
             return BuildResult(foundDoc);
         }
+        
         public Query Analyze(string rawQuery)
         {
             var result = new Query();
@@ -52,6 +53,7 @@ namespace SearchLibrary
             result.ExcQueries = excQueries;
             return result;
         }
+
         public Doc SearchQueries(Query query)
         {
             var resultDocs = new Doc();
@@ -68,15 +70,15 @@ namespace SearchLibrary
                 if (invertedIndex.Map.TryGetValue(word, out temp))
                     resultDocs.ExcDocs.UnionWith(temp);
 
-            if(seenAndQuery && resultDocs.AndDocs.Count == 0)
+            if (seenAndQuery && resultDocs.AndDocs.Count == 0)
                 resultDocs.IncompatibleAnds = true;
 
-            if(seenOrQuery && resultDocs.OrDocs.Count == 0)
+            if (seenOrQuery && resultDocs.OrDocs.Count == 0)
                 resultDocs.IncompatibleOrs = true;
 
             return resultDocs;
         }
-        
+
         public HashSet<string> BuildResult(Doc foundDocs)
         {
             HashSet<string> result;

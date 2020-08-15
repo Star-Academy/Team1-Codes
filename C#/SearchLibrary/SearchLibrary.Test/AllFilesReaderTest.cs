@@ -10,18 +10,20 @@ namespace SearchLibrary.Test
         AllFilesReader allFilesReader = new AllFilesReader(TestDocumentsPath);
 
         [Fact]
-        public void GetFilesNameTest() {
+        public void GetFilesNameTest()
+        {
             var actualNames = allFilesReader.GetAllFilesNames();
-            var expectedNames = new List<string> {"One.txt", "Team.txt"};
+            var expectedNames = new List<string> { "One.txt", "Team.txt" };
             Assert.Equal(expectedNames, actualNames);
         }
 
         [Fact]
-        public void ReadAllFilesTest() {
+        public void ReadAllFilesTest()
+        {
             var actualDict = allFilesReader.ReadAllFiles();
-            var expectedTeamTokens = new List<string> {"star", "academy", "phase", "five"};
-            var expectedOneTokens = new List<string> {"unit", "test", "feature", "branch"};
-            
+            var expectedTeamTokens = new List<string> { "star", "academy", "phase", "five" };
+            var expectedOneTokens = new List<string> { "unit", "test", "feature", "branch" };
+
             Assert.Equal(expectedTeamTokens, actualDict.GetValueOrDefault("Team.txt"));
             Assert.Equal(expectedOneTokens, actualDict.GetValueOrDefault("One.txt"));
         }

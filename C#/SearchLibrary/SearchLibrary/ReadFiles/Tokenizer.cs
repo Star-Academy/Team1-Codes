@@ -13,7 +13,8 @@ namespace SearchLibrary.ReadFiles
             this.pattern = pattern;
         }
 
-        internal List<string> GetTokens(string text) {
+        internal List<string> GetTokens(string text)
+        {
             return Regex.Matches(text, pattern).Cast<Match>().Select(x => x.Value.Trim()).ToList();
         }
     }
