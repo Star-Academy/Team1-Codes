@@ -39,8 +39,6 @@ namespace SearchLibrary.Test
         [Fact]
         public void AnalyzeTest()
         {
-            var queryProcessor = new QueryProcessor(new InvertedIndex());
-
             var rawQuery = "and1 +or1 and2 -exc1 +or2 -exc2 and3";
             var query = queryProcessor.Analyze(rawQuery);
 
