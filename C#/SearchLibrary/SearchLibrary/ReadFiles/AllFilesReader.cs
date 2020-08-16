@@ -9,6 +9,9 @@ namespace SearchLibrary.ReadFiles
         private readonly FileReader fileReader = new FileReader();
         private readonly string documentsPath;
 
+        const string SearchPattern = "*.txt";
+        const string SearchRegex = "\\w+";
+
         public AllFilesReader(string folderPath)
         {
             documentsPath = folderPath;
@@ -16,8 +19,8 @@ namespace SearchLibrary.ReadFiles
 
         public Dictionary<string, List<string>> ReadAllFiles()
         {
-            var tokenizer = new Tokenizer("\\w+");
-            var filePaths = Directory.GetFiles(documentsPath, "*.txt", SearchOption.AllDirectories);
+            var tokenizer = new Tokenizer(SearchRegex);
+            var filePaths = Directory.GetFiles(documentsPath, SearchPattern, SearchOption.AllDirectories);
             return filePaths.ToDictionary(Path.GetFileName,
                 filePath => ReadFile(filePath, tokenizer));
         }
@@ -29,7 +32,7 @@ namespace SearchLibrary.ReadFiles
 
         public List<string> GetAllFilesNames()
         {
-            return Directory.GetFiles(documentsPath, "*.txt", SearchOption.AllDirectories)
+            return Directory.GetFiles(documentsPath, SearchPattern, SearchOption.AllDirectories)
                 .Select(Path.GetFileName).ToList();
         }
     }
