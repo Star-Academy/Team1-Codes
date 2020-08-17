@@ -80,7 +80,7 @@ namespace SearchLibrary.Test
         }
 
         public static IEnumerable<object[]> TestData =>
-            new List<object[]>
+            new List<object[]>  
             {
                 new object[] {"unit +branch -star", new HashSet<string> {"One"}},
                 new object[] {"-branch", new HashSet<string> {"Team"}},
