@@ -8,7 +8,7 @@ namespace SearchLibrary
     /// By calling SetUpInvertIndexSearch(documentsPath), Search program is initialized
     /// and then you can start calling Search(query) to get results
     /// </summary>
-    public class Program
+    public class SearchProgram
     {
         private QueryProcessor queryProcessor;
         public void SetUpInvertIndexSearch(string documentsPath)

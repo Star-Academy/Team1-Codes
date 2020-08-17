@@ -9,7 +9,7 @@ namespace SearchLibrary.ReadFiles
         private readonly FileReader fileReader = new FileReader();
         private readonly string documentsPath;
 
-        const string SearchPattern = "*.txt";
+        const string SearchPattern = "*";
         const string SearchRegex = "\\w+";
 
         public AllFilesReader(string folderPath)
