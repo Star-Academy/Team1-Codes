@@ -6,7 +6,7 @@ namespace SearchLibrary.Test
 {
     public class AllFilesReaderTest
     {
-        private const string TestDocumentsPath = @"..\..\..\..\..\..\Resources\testDocuments";
+        private const string TestDocumentsPath = @"../../../testDocuments";
         AllFilesReader allFilesReader = new AllFilesReader(TestDocumentsPath);
 
         [Fact]

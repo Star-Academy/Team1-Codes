@@ -6,12 +6,12 @@ namespace SearchLibrary.Test
 {
     public class FileReaderTest
     {
-        private const string TestDocumentsPath = @"..\..\..\..\..\..\Resources\testDocuments";
+        private const string TestDocumentsPath = @"../../../testDocuments";
         FileReader fileReader = new FileReader();
 
         [Fact]
         public void GetFileContentTest() {
-            var actualContent = fileReader.GetContent(TestDocumentsPath + "\\Team.txt");
+            var actualContent = fileReader.GetContent(TestDocumentsPath + "/Team.txt");
             var expectedContent = "star academy\r\nphase five"; 
             Assert.Equal(expectedContent, actualContent);
         }

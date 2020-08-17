@@ -4,8 +4,8 @@
     {
         private static void Main(string[] args)
         {
-            const string ScoresPath = @"data\scores.json";
-            const string StudentsPath = @"data\students.json";
+            const string ScoresPath = @"../Resources/averageData/scores.json";
+            const string StudentsPath = @"../Resources/averageData/students.json";
 
             const int NumberToPrint = 3;
 
