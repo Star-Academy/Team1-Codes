@@ -1,3 +1,4 @@
+![build](https://github.com/Star-Academy/Team1-Codes/workflows/build/badge.svg)
 # Team1-Codes
 ## Contributors
  - Alireza Tajmirriahi
