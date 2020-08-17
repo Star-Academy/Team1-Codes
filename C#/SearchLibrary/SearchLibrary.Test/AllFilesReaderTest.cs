@@ -13,7 +13,7 @@ namespace SearchLibrary.Test
         public void GetFilesNameTest()
         {
             var actualNames = allFilesReader.GetAllFilesNames();
-            var expectedNames = new List<string> { "One.txt", "Team.txt" };
+            var expectedNames = new List<string> { "Team.txt", "One.txt" };
             Assert.Equal(expectedNames, actualNames);
         }
 
