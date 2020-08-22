@@ -5,7 +5,7 @@ namespace SearchNest
 {
     internal static class ElasticClientManager
     {
-        private static IElasticClient client = CreateClient();
+        private static IElasticClient Client = CreateClient();
 
         private static IElasticClient CreateClient()
         {
@@ -17,7 +17,7 @@ namespace SearchNest
 
         public static IElasticClient GetElasticClient()
         {
-            return client;
+            return Client;
         }
     }
 }
