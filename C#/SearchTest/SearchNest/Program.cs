@@ -5,7 +5,7 @@ namespace SearchNest
 {
     class Program
     {
-        private const string DocumentsPath = @"./../../Resources/documents";
+        private const string DocumentsPath = @"./../../../Resources/documents";
         private const string IndexName = "phase8";
 
         static void Main(string[] args)
