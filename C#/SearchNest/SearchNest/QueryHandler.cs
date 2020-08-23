@@ -9,53 +9,46 @@ namespace SearchNest
     public class QueryHandler
     {
         private readonly IElasticClient client;
-        private string IndexName;
-
-        public QueryHandler(string indexName)
+        public QueryHandler()
         {
-            IndexName = indexName;
             this.client = ElasticClientManager.GetElasticClient();
         }
 
-        public string handleQuery(string rawQuery)
+        public string handleQuery(string rawQuery, string indexName)
+        {
+            return BuildResult(BuildQuery(rawQuery), indexName);
+        }
+
+        public QueryDescriptor BuildQuery(string rawQuery)
+        {
+            QueryDescriptor queryDescriptor = new QueryDescriptor();
+
+            var splitQuery = rawQuery.Split(" ");
+            queryDescriptor.shouldFuncList = splitQuery.Where(q => q.StartsWith("+"))
+                .Select(query => GetContainer(query.Substring(1))).ToList();
+            queryDescriptor.mustNotFuncList = splitQuery.Where(q => q.StartsWith("-"))
+                .Select(query => GetContainer(query.Substring(1))).ToList();
+            queryDescriptor.mustFuncList = splitQuery.Where(q => !q.StartsWith("+") && !q.StartsWith("-"))
+                .Select(GetContainer).ToList();
+
+            return queryDescriptor;
+        }
+
+        public string BuildResult(QueryDescriptor queryDescriptor, string IndexName)
         {
             var searchDescriptor = new SearchDescriptor<Document>().Index(Indices.Index(IndexName));
 
-            var mustFuncList = new List<Func<QueryContainerDescriptor<Document>, QueryContainer>>();
-            var mustNotFuncList = new List<Func<QueryContainerDescriptor<Document>, QueryContainer>>();
-            var shouldFuncList = new List<Func<QueryContainerDescriptor<Document>, QueryContainer>>();
-
-            foreach (var query in rawQuery.Split(" "))
-            {
-                switch (query[0])
-                {
-                    case '+':
-                        shouldFuncList.Add(GetContainer(query.Substring(1)));
-                        break;
-                    case '-':
-                        mustNotFuncList.Add(GetContainer(query.Substring(1)));
-                        break;
-                    default:
-                        mustFuncList.Add(GetContainer(query));
-                        break;
-                }
-            }
-
             searchDescriptor.Query(q => q
                 .Bool(descriptor => descriptor
-                    .Must(mustFuncList)
-                    .Should(shouldFuncList)
-                    .MustNot(mustNotFuncList)));
+                    .Must(queryDescriptor.mustFuncList)
+                    .Should(queryDescriptor.shouldFuncList)
+                    .MustNot(queryDescriptor.mustNotFuncList)));
 
             var response = client.Search<Document>(searchDescriptor);
-            
-            var result = response.Documents
-                .Select(doc => doc.FileName)
-                .Aggregate((x, y) => $"{x}, {y}");
 
             return response.Documents.Any()
-                ? $"Result is {result}"
-                : "Query not found";
+                ? $"Query was found in {response.Documents.Select(doc => doc.FileName).Aggregate((x, y) => $"{x}, {y}")}"
+                : "Query wasn't found";
         }
 
         private static Func<QueryContainerDescriptor<Document>, QueryContainer> GetContainer(string query)

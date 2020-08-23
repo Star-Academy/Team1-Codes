@@ -6,7 +6,7 @@ namespace SearchNest
     class Program
     {
         private const string DocumentsPath = @"./../../../Resources/documents";
-        private const string IndexName = "phase8";
+        private const string IndexName = "phase8_1";
 
         static void Main(string[] args)
         {
@@ -18,9 +18,9 @@ namespace SearchNest
             importer.ImportData(IndexName, documents);
             client.Indices.Refresh(); // ?
 
-            var queryHandler = new QueryHandler(IndexName);
+            var queryHandler = new QueryHandler();
             while (true) {
-                Console.WriteLine(queryHandler.handleQuery(Console.ReadLine()));
+                Console.WriteLine(queryHandler.handleQuery(Console.ReadLine(), IndexName));
             }
         }
     }
