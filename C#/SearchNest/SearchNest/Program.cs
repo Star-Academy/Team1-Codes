@@ -10,18 +10,26 @@ namespace SearchNest
 
         private static void Main(string[] args)
         {
-            var client = ElasticClientManager.GetElasticClient();
+            SetUpIndex();
+            ProcessQueries();
+        }
 
+        private static void ProcessQueries()
+        {
+            var queryHandler = new QueryHandler();
+            while (true)
+                Console.WriteLine(queryHandler.HandleQuery(Console.ReadLine(), IndexName));
+        }
+
+        private static void SetUpIndex()
+        {
             var allFilesReader = new DataReader.AllFilesReader(DocumentsPath);
             var documents = new DocumentBuilder().BuildDocuments(allFilesReader.ReadAllFiles());
             var importer = new Importer<Document>();
             importer.ImportData(IndexName, documents);
-            client.Indices.Refresh(); // TODO ?
-
-            var queryHandler = new QueryHandler();
-            while (true) {
-                Console.WriteLine(queryHandler.handleQuery(Console.ReadLine(), IndexName));
-            }
+            
+            var client = ElasticClientManager.GetElasticClient();
+            client.Indices.Refresh();
         }
     }
 }
