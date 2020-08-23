@@ -48,14 +48,8 @@ namespace SearchNest
                     .MustNot(mustNotFuncList)));
 
             var response = client.Search<Document>(searchDescriptor);
-            
-            var result = response.Documents
-                .Select(doc => doc.FileName)
-                .Aggregate((x, y) => $"{x}, {y}");
 
-            return response.Documents.Any()
-                ? $"Result is {result}"
-                : "Query not found";
+            return GenerateResult(response.Documents);
         }
 
         private static Func<QueryContainerDescriptor<Document>, QueryContainer> GetContainer(string query)
@@ -65,5 +59,12 @@ namespace SearchNest
                     .Field(doc => doc.Text)
                     .Query(query));
         }
-    }
+
+        private static string GenerateResult(IEnumerable<Document> responseDocuments)
+        {
+            return responseDocuments.Any()
+                ? $"Query was found in {responseDocuments.Select(doc => doc.FileName).Aggregate((x, y) => $"{x}, {y}")}"
+                : "Query wasn't found";
+        }
+}
 }
