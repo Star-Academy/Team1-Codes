@@ -24,7 +24,7 @@ namespace SearchNest
         private static void SetUpIndex()
         {
             var allFilesReader = new DataReader.AllFilesReader(DocumentsPath);
-            var documents = new DocumentBuilder().BuildDocuments(allFilesReader.ReadAllFiles());
+            var documents = DocumentBuilder.BuildDocuments(allFilesReader.ReadAllFiles());
             var importer = new Importer<Document>();
             importer.ImportData(IndexName, documents);
             

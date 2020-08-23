@@ -6,7 +6,8 @@ namespace SearchNest
 {
     public class DocumentBuilder
     {
-        public IEnumerable<Document> BuildDocuments(Dictionary<string, string> filesContents) {
+        public static IEnumerable<Document> BuildDocuments(Dictionary<string, string> filesContents)
+        {
             return filesContents.Select(k => new Document(k.Value, k.Key));
         }
     }
