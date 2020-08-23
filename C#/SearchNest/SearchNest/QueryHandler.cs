@@ -18,7 +18,10 @@ namespace SearchNest
         public string HandleQuery(string rawQuery, string indexName)
         {
             var searchResponse = SearchQuery(BuildQuery(rawQuery), indexName);
-            return BuildResult(searchResponse.Documents);
+
+            return ResponseValidator.IsResponseValid(searchResponse)
+                ? BuildResult(searchResponse.Documents)
+                : "Invalid response";
         }
 
         private static QueryDescriptor BuildQuery(string rawQuery)
