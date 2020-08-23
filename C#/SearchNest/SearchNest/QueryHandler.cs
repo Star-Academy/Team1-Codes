@@ -58,5 +58,12 @@ namespace SearchNest
                     .Field(doc => doc.Text)
                     .Query(query));
         }
-    }
+
+        private static string GenerateResult(IEnumerable<Document> responseDocuments)
+        {
+            return responseDocuments.Any()
+                ? $"Query was found in {responseDocuments.Select(doc => doc.FileName).Aggregate((x, y) => $"{x}, {y}")}"
+                : "Query wasn't found";
+        }
+}
 }
