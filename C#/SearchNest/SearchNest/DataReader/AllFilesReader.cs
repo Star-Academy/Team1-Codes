@@ -22,11 +22,5 @@ namespace SearchNest.DataReader
             return filePaths.ToDictionary(Path.GetFileName,
                 filePath => fileReader.GetContent(filePath));
         }
-
-        public List<string> GetAllFilesNames()
-        {
-            return Directory.GetFiles(documentsPath, SearchPattern, SearchOption.AllDirectories)
-                .Select(Path.GetFileName).ToList();
-        }
     }
 }
