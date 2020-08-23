@@ -19,9 +19,9 @@ namespace SearchNest
         {
             var searchResponse = SearchQuery(BuildQuery(rawQuery), indexName);
 
-            return ResponseValidator.IsResponseValid(searchResponse)
+            return ResponseValidator.IsSearchSuccessful(searchResponse)
                 ? BuildResult(searchResponse.Documents)
-                : "Invalid response";
+                : $"Unsuccessful: {searchResponse.ApiCall.OriginalException.Message}";
         }
 
         private static QueryDescriptor BuildQuery(string rawQuery)
