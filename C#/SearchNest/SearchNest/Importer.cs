@@ -9,10 +9,11 @@ namespace SearchNest
 
         public Importer()
         {
-            this.client = ElasticClientManager.GetElasticClient();
+            client = ElasticClientManager.GetElasticClient();
         }
-        
-        public void ImportData(string indexName, IEnumerable<T> documents) {
+
+        public void ImportData(string indexName, IEnumerable<T> documents)
+        {
             client.Bulk(CreateBulk(indexName, documents));
         }
 
@@ -26,6 +27,7 @@ namespace SearchNest
                     .Document(document)
                 );
             }
+
             return bulkDescriptor;
         }
     }

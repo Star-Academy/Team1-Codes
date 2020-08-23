@@ -5,7 +5,7 @@ namespace SearchNest
 {
     internal static class ElasticClientManager
     {
-        private static IElasticClient Client = CreateClient();
+        private static readonly IElasticClient Client = CreateClient();
 
         private static IElasticClient CreateClient()
         {

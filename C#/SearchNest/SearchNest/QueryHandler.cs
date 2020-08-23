@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Nest;
 using SearchNest.Model;
@@ -9,40 +8,41 @@ namespace SearchNest
     public class QueryHandler
     {
         private readonly IElasticClient client;
+
         public QueryHandler()
         {
             this.client = ElasticClientManager.GetElasticClient();
         }
 
-        public string handleQuery(string rawQuery, string indexName)
+        public string HandleQuery(string rawQuery, string indexName)
         {
             return BuildResult(BuildQuery(rawQuery), indexName);
         }
 
         public QueryDescriptor BuildQuery(string rawQuery)
         {
-            QueryDescriptor queryDescriptor = new QueryDescriptor();
-
+            var queryDescriptor = new QueryDescriptor();
             var splitQuery = rawQuery.Split(" ");
-            queryDescriptor.shouldFuncList = splitQuery.Where(q => q.StartsWith("+"))
+            
+            queryDescriptor.ShouldFuncList = splitQuery.Where(q => q.StartsWith("+"))
                 .Select(query => GetContainer(query.Substring(1))).ToList();
-            queryDescriptor.mustNotFuncList = splitQuery.Where(q => q.StartsWith("-"))
+            queryDescriptor.MustNotFuncList = splitQuery.Where(q => q.StartsWith("-"))
                 .Select(query => GetContainer(query.Substring(1))).ToList();
-            queryDescriptor.mustFuncList = splitQuery.Where(q => !q.StartsWith("+") && !q.StartsWith("-"))
+            queryDescriptor.MustFuncList = splitQuery.Where(q => !q.StartsWith("+") && !q.StartsWith("-"))
                 .Select(GetContainer).ToList();
 
             return queryDescriptor;
         }
 
-        public string BuildResult(QueryDescriptor queryDescriptor, string IndexName)
+        public string BuildResult(QueryDescriptor queryDescriptor, string indexName)
         {
-            var searchDescriptor = new SearchDescriptor<Document>().Index(Indices.Index(IndexName));
+            var searchDescriptor = new SearchDescriptor<Document>().Index(Indices.Index(indexName));
 
             searchDescriptor.Query(q => q
                 .Bool(descriptor => descriptor
-                    .Must(queryDescriptor.mustFuncList)
-                    .Should(queryDescriptor.shouldFuncList)
-                    .MustNot(queryDescriptor.mustNotFuncList)));
+                    .Must(queryDescriptor.MustFuncList)
+                    .Should(queryDescriptor.ShouldFuncList)
+                    .MustNot(queryDescriptor.MustNotFuncList)));
 
             var response = client.Search<Document>(searchDescriptor);
 
@@ -58,12 +58,5 @@ namespace SearchNest
                     .Field(doc => doc.Text)
                     .Query(query));
         }
-
-        private static string GenerateResult(IEnumerable<Document> responseDocuments)
-        {
-            return responseDocuments.Any()
-                ? $"Query was found in {responseDocuments.Select(doc => doc.FileName).Aggregate((x, y) => $"{x}, {y}")}"
-                : "Query wasn't found";
-        }
-}
+    }
 }
