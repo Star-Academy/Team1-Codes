@@ -11,7 +11,8 @@ namespace SearchNest
         {
             this.client = ElasticClientManager.GetElasticClient();
         }
-        public void importData(string indexName, IEnumerable<T> documents) {
+        
+        public void ImportData(string indexName, IEnumerable<T> documents) {
             client.Bulk(CreateBulk(indexName, documents));
         }
 
