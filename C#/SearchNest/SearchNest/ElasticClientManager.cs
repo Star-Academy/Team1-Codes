@@ -5,11 +5,12 @@ namespace SearchNest
 {
     internal static class ElasticClientManager
     {
+        private const string UriPath = "http://localhost:9200";
         private static readonly IElasticClient Client = CreateClient();
 
         private static IElasticClient CreateClient()
         {
-            var uri = new Uri("http://localhost:9200");
+            var uri = new Uri(UriPath);
             var connectionSettings = new ConnectionSettings(uri);
             connectionSettings.EnableDebugMode();
             return new ElasticClient(connectionSettings);
