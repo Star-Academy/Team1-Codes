@@ -8,7 +8,7 @@ namespace SearchNest
     {
         public static IEnumerable<Document> BuildDocuments(Dictionary<string, string> filesContents)
         {
-            return filesContents.Select(k => new Document(k.Value, k.Key));
+            return filesContents.Select(k => new Document {FileName = k.Key, Text = k.Value});
         }
     }
 }
