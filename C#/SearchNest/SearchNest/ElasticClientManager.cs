@@ -5,20 +5,20 @@ namespace SearchNest
 {
     internal static class ElasticClientManager
     {
+        private static IElasticClient client;
         private const string UriPath = "http://localhost:9200";
-        private static readonly IElasticClient Client = CreateClient();
-
-        private static IElasticClient CreateClient()
-        {
-            var uri = new Uri(UriPath);
-            var connectionSettings = new ConnectionSettings(uri);
-            connectionSettings.EnableDebugMode();
-            return new ElasticClient(connectionSettings);
-        }
 
         public static IElasticClient GetElasticClient()
         {
-            return Client;
+            return client ??= CreateNewClient();
+        }
+
+        private static IElasticClient CreateNewClient()
+        {
+            var uri = new Uri(UriPath);
+            var connectionSettings = new ConnectionSettings(uri)
+                .EnableDebugMode();
+            return new ElasticClient(connectionSettings);
         }
     }
 }
