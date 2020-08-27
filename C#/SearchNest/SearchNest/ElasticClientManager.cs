@@ -16,8 +16,10 @@ namespace SearchNest
         private static IElasticClient CreateNewClient()
         {
             var uri = new Uri(UriPath);
-            var connectionSettings = new ConnectionSettings(uri)
-                .EnableDebugMode();
+            var connectionSettings = new ConnectionSettings(uri);
+#if DEBUG
+            connectionSettings.EnableDebugMode();
+#endif
             return new ElasticClient(connectionSettings);
         }
     }
