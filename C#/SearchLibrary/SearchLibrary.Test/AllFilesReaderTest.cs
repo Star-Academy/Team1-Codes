@@ -12,9 +12,10 @@ namespace SearchLibrary.Test
         [Fact]
         public void GetFilesNameTest()
         {
-            var actualNames = allFilesReader.GetAllFilesNames();
-            var expectedNames = new List<string> { "Team.txt", "One.txt" };
-            Assert.Equal(expectedNames, actualNames);
+            var actualNames = new HashSet<string> (allFilesReader.GetAllFilesNames());
+            var expectedNames = new HashSet<string> { "Team.txt", "One.txt" };
+
+            Assert.True(actualNames.SetEquals(expectedNames));
         }
 
         [Fact]
