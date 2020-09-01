@@ -13,3 +13,5 @@
  - **Phase05** : TDD
  - **Phase06** : CI/CD
  - **Phase07** : Elasticsearch
+ - **Phase08** : Nest
+ - **Phase09** : ASP.Net Core & Angular
