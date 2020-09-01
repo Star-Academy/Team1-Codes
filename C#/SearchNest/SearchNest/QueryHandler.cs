@@ -9,19 +9,27 @@ namespace SearchNest
     public class QueryHandler
     {
         private readonly IElasticClient client;
+        private readonly string indexName;
 
-        public QueryHandler()
+        public QueryHandler(IElasticClient client, string indexName)
         {
-            client = ElasticClientManager.GetElasticClient();
+            this.client = client;
+            this.indexName = indexName;
         }
 
-        public string HandleQuery(string rawQuery, string indexName)
+        public string HandleQuery(string rawQuery)
         {
-            var searchResponse = SearchQuery(BuildQuery(rawQuery), indexName);
-
+            var searchResponse = ProcessQuery(rawQuery);
+            
             return ResponseValidator.IsSearchSuccessful(searchResponse)
                 ? BuildResult(searchResponse.Documents)
                 : $"Unsuccessful: {searchResponse.ApiCall.OriginalException.Message}";
+        }
+
+        public ISearchResponse<Document> ProcessQuery(string rawQuery)
+        {
+            var query = BuildQuery(rawQuery);
+            return SearchQuery(query);
         }
 
         private static QueryDescriptor BuildQuery(string rawQuery)
@@ -39,7 +47,7 @@ namespace SearchNest
             return queryDescriptor;
         }
 
-        private ISearchResponse<Document> SearchQuery(QueryDescriptor queryDescriptor, string indexName)
+        private ISearchResponse<Document> SearchQuery(QueryDescriptor queryDescriptor)
         {
             var searchDescriptor = new SearchDescriptor<Document>().Index(Indices.Index(indexName));
 

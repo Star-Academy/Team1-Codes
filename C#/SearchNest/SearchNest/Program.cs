@@ -1,4 +1,5 @@
 ﻿using System;
+using Nest;
 using SearchNest.Model;
 
 namespace SearchNest
@@ -7,18 +8,19 @@ namespace SearchNest
     {
         private const string DocumentsPath = @"./../../../Resources/documents";
         private const string IndexName = "phase08";
+        private static readonly IElasticClient Client = ElasticClientManager.GetElasticClient();
 
         private static void Main(string[] args)
         {
-            SetUpIndex();
+            // SetUpIndex();
             ProcessQueries();
         }
 
         private static void ProcessQueries()
         {
-            var queryHandler = new QueryHandler();
+            var queryHandler = new QueryHandler(Client, IndexName);
             while (true)
-                Console.WriteLine(queryHandler.HandleQuery(Console.ReadLine(), IndexName));
+                Console.WriteLine(queryHandler.HandleQuery(Console.ReadLine()));
         }
 
         private static void SetUpIndex()
@@ -27,9 +29,8 @@ namespace SearchNest
             var documents = DocumentBuilder.BuildDocuments(allFilesReader.ReadAllFiles());
             var importer = new Importer<Document>();
             importer.ImportData(IndexName, documents);
-            
-            var client = ElasticClientManager.GetElasticClient();
-            client.Indices.Refresh();
+
+            Client.Indices.Refresh();
         }
     }
 }
