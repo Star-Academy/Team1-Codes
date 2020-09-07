@@ -11,20 +11,20 @@ namespace FirstTimeWeb.Controllers
     [Route("[controller]")]
     public class SearchController : ControllerBase
     {
-        private readonly ILogger<SearchController> _logger;
-        private readonly QueryHandler _queryHandler;
+        private readonly ILogger<SearchController> logger;
+        private readonly QueryHandler queryHandler;
 
         public SearchController(ILogger<SearchController> logger, QueryHandler queryHandler)
         {
-            _logger = logger;
-            _queryHandler = queryHandler;
+            this.logger = logger;
+            this.queryHandler = queryHandler;
         }
 
         [HttpGet]
         [Route("raw")]
         public ActionResult<string> SearchQuery([FromBody] string rawQuery)
         {
-            var searchResponse = _queryHandler.ProcessQuery(rawQuery);
+            var searchResponse = queryHandler.ProcessQuery(rawQuery);
 
             return ResponseValidator.IsSearchSuccessful(searchResponse)
                 ? BuildResult(searchResponse.Documents)
