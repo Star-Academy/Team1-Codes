@@ -1,0 +1,20 @@
+<h1 id="tableLabel">Search Results</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+<p *ngIf="!documents"><em>Loading...</em></p>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="documents">
+  <thead>
+    <tr>
+      <th>Text</th>
+      <th>FileName</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let document of documents">
+      <td>{{ document.text }}</td>
+      <td>{{ document.fileName }}</td>
+    </tr>
+  </tbody>
+</table>
